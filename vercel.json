@@ -20,7 +20,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/client/dist/angular/index.html"
+      "dest": "/client/dist/angular/browser/index.html"
     }
   ]
 }

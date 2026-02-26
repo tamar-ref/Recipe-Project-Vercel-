@@ -1,0 +1,18 @@
+<mat-toolbar color="primary">
+  <span>{{ currentUser }}</span>
+</mat-toolbar>
+
+<nav class="navbar">
+  <mat-nav-list>
+    <a mat-list-item routerLink="/all-recipes" routerLinkActive="active-link">כל המתכונים</a>
+
+    <a *ngIf="currentUser === 'אורח'" mat-list-item routerLink="/register" routerLinkActive="active-link">הרשמה</a>
+    <a *ngIf="currentUser === 'אורח'" mat-list-item routerLink="/login" routerLinkActive="active-link">התחברות</a>
+    <a *ngIf="currentUser !== 'אורח'" mat-list-item routerLink="/add-recipe" routerLinkActive="active-link">הוסף מתכון</a>
+    <a *ngIf="currentUser !== 'אורח'" mat-list-item routerLink="/my-recipes" routerLinkActive="active-link">המתכונים שלי</a>
+    <a *ngIf="currentUser !== 'אורח'" mat-list-item routerLink="/update-password" routerLinkActive="active-link">עדכון סיסמא</a>
+    <a *ngIf="isAdmin" mat-list-item routerLink="/users" routerLinkActive="active-link">משתמשים</a>
+    <span class="spacer"></span>
+    <a *ngIf="currentUser !== 'אורח'" mat-list-item class="logout-btn" (click)="logout()">התנתק</a>
+  </mat-nav-list>
+</nav>

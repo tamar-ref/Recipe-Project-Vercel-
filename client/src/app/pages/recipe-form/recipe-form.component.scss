@@ -1,0 +1,44 @@
+.recipe-form {
+    max-width: 600px;
+    margin: 40px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.half-width {
+    width: 48%;
+    display: inline-block;
+    margin-inline-end: 4%;
+}
+
+.layer {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.section-label {
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+.form-actions {
+    display: flex;
+    gap: 10px;
+    flex-direction: column;
+}
+
+.instruction-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.instruction-row mat-form-field {
+    flex: 1;
+}

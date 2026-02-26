@@ -1,0 +1,43 @@
+.navbar {
+    background-color: #e8eaf6;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 8px 20px;
+    direction: rtl;
+    text-align: right;
+}
+
+mat-nav-list {
+    display: flex;
+    gap: 12px;
+    padding: 0;
+    justify-content: flex-start;
+    width: 100%;
+    direction: rtl;
+    align-items: center;
+}
+
+mat-nav-list a,
+mat-nav-list button {
+    width: auto;
+    flex-shrink: 0;
+    padding: 6px 12px;
+    white-space: nowrap;
+}
+
+.logout-btn {
+    margin-left: auto;
+}
+
+.spacer {
+    flex-grow: 1;
+}
+
+.active-link {
+    background-color: #c5cae9;
+    border-radius: 4px;
+}
+
+.username {
+  cursor: pointer;
+  text-decoration: underline;
+}

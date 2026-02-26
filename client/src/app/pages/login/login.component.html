@@ -1,0 +1,19 @@
+<form class="login-form" (ngSubmit)="login()">
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>מייל</mat-label>
+        <input matInput type="email" [(ngModel)]="email" name="email" placeholder="מייל" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>סיסמא</mat-label>
+        <input matInput type="password" [(ngModel)]="password" name="password" placeholder="סיסמא" />
+    </mat-form-field>
+
+    <div class="buttons">
+        <button mat-flat-button color="primary" type="submit" class="full-width">כניסה</button>
+        <button mat-stroked-button color="accent" type="button" (click)="goToRegister()"
+            class="full-width">הרשמה</button>
+    </div>
+
+</form>

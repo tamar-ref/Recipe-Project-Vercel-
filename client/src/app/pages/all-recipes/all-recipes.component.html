@@ -1,0 +1,35 @@
+<div class="filters">
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>זמן מקסימלי בדקות</mat-label>
+        <input matInput type="number" [(ngModel)]="maxTimeInput" (input)="onMaxTimeChange()" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>חיפוש לפי קטגוריה</mat-label>
+        <input matInput type="text" [(ngModel)]="categorySearchTerm" (input)="filterRecipes()" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>חיפוש מתכונים</mat-label>
+        <input matInput type="text" [(ngModel)]="searchTerm" (input)="onSearchChange()" />
+    </mat-form-field>
+</div>
+
+
+<div *ngIf="filteredRecipes.length > 0; else noResults" class="cards-container">
+    <mat-card *ngFor="let res of filteredRecipes" class="recipe-card" [routerLink]="['/recipe', res._id]">
+        <!--<img mat-card-image [src]="res.image" alt="תמונה של {{res.name}}" />-->
+        <mat-card-title class="recipe-title">{{ res.name }}</mat-card-title>
+        <mat-card-content>
+            <p>⏱ {{ res.time | duration }}</p>
+            <p><strong>דרגת קושי: </strong><span *appRepeat="res.difficulty">*</span></p>
+            <p><strong>קטגוריה: </strong>{{ res.category.name }}</p>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<ng-template #noResults>
+    <div class="no-results">
+        <p *ngIf="error">{{ error }}</p>
+    </div>
+</ng-template>

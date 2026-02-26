@@ -1,0 +1,94 @@
+<form class="recipe-form">
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>שם</mat-label>
+        <input matInput type="text" [(ngModel)]="name" [ngModelOptions]="{ standalone: true }">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>תיאור</mat-label>
+        <input matInput type="text" [(ngModel)]="description" [ngModelOptions]="{ standalone: true }">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>קטגוריה</mat-label>
+        <mat-select [(ngModel)]="selectedCategory" [ngModelOptions]="{ standalone: true }">
+            <mat-option *ngFor="let cat of categories" [value]="cat.description">{{ cat.description }}</mat-option>
+            <mat-option value="other">אחר</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div *ngIf="selectedCategory === 'other'">
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>קטגוריה חדשה</mat-label>
+            <input matInput type="text" [(ngModel)]="newCategory" [ngModelOptions]="{ standalone: true }">
+        </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>זמן הכנה בדקות</mat-label>
+        <input matInput type="number" [(ngModel)]="time" [ngModelOptions]="{ standalone: true }">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>רמת קושי (1-5)</mat-label>
+        <input matInput type="number" [(ngModel)]="difficulty" [ngModelOptions]="{ standalone: true }">
+    </mat-form-field>
+
+    <label class="section-label">שכבות:</label>
+    <div *ngFor="let layer of layers; let i = index" class="layer">
+        <mat-form-field appearance="fill" class="half-width">
+            <mat-label>מרכיבים</mat-label>
+            <input matInput [value]="layer.ingredients" (input)="updateLayer(i, 'ingredients', $event)">
+        </mat-form-field>
+        <mat-form-field appearance="fill" class="half-width">
+            <mat-label>תיאור</mat-label>
+            <input matInput [value]="layer.description" (input)="updateLayer(i, 'description', $event)">
+        </mat-form-field>
+        <button mat-icon-button color="warn" type="button" (click)="removeLayer(i)" *ngIf="layers.length > 1">
+            <mat-icon>remove</mat-icon>
+        </button>
+    </div>
+    <button mat-icon-button color="primary" type="button" (click)="addLayer()" aria-label="הוסף שכבה">
+        <mat-icon>add</mat-icon>
+    </button>
+
+    <!--
+    <label>תמונה</label><br />
+    <input type="file" accept="image/*" (change)="onImageSelected($event)" #fileInput />
+    <div *ngIf="imagePreview">
+        <img [src]="imagePreview" alt="תצוגה מקדימה" width="200" /><br />
+        <button type="button" (click)="removeImage(fileInput)">הסר תמונה</button>
+    </div><br />
+-->
+
+    <label class="section-label">הוראות הכנה:</label>
+    <div class="instruction-row" *ngFor="let instruction of instructions; let i = index; trackBy: trackByIndex">
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>שלב {{ i + 1 }}</mat-label>
+            <input matInput [(ngModel)]="instructions[i]" [ngModelOptions]="{ standalone: true }"
+                name="instruction{{i}}" />
+        </mat-form-field>
+
+        <button mat-icon-button color="warn" type="button" (click)="removeInstruction(i)"
+            *ngIf="instructions.length > 1">
+            <mat-icon>remove</mat-icon>
+        </button>
+    </div>
+    <button mat-icon-button color="primary" type="button" (click)="addInstruction()" aria-label="הוסף הוראה">
+        <mat-icon>add</mat-icon>
+    </button>
+
+
+    <label class="section-label">האם פרטי?</label>
+    <mat-radio-group [(ngModel)]="isPrivate" [ngModelOptions]="{ standalone: true }">
+        <mat-radio-button [value]="true">כן</mat-radio-button>
+        <mat-radio-button [value]="false">לא</mat-radio-button>
+    </mat-radio-group>
+
+    <div class="form-actions">
+        <button mat-flat-button color="primary" class="full-width" type="button" (click)="addRecipe()">שמירה</button>
+        <button mat-stroked-button color="accent" class="full-width" type="reset" *ngIf="!isEditMode">איפוס</button>
+    </div>
+
+
+</form>

@@ -1,0 +1,35 @@
+<mat-card *ngIf="error === ''">
+    <mat-table [dataSource]="users" class="mat-elevation-z2">
+
+        <ng-container matColumnDef="username">
+            <mat-header-cell *matHeaderCellDef> שם משתמש </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.username}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="passwordStrength">
+            <mat-header-cell *matHeaderCellDef> סיסמא חזקה </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.passwordStrength}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+            <mat-header-cell *matHeaderCellDef> מייל </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.email}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="address">
+            <mat-header-cell *matHeaderCellDef> כתובת </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.address}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="role">
+            <mat-header-cell *matHeaderCellDef> תפקיד </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.role}} </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+</mat-card>
+
+<p>{{ error }}</p>

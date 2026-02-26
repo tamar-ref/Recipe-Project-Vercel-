@@ -1,0 +1,19 @@
+mat-card {
+    margin: 20px;
+    padding: 16px;
+}
+
+mat-table {
+    width: 100%;
+    direction: rtl;
+}
+
+mat-header-cell,
+mat-cell {
+    text-align: right;
+}
+
+mat-header-cell {
+    color: #3f51b5;
+    font-weight: bold;
+}

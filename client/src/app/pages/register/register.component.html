@@ -1,0 +1,30 @@
+<form class="register-form" (ngSubmit)="register()">
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>שם משתמש</mat-label>
+        <input matInput type="text" [(ngModel)]="username" name="username" placeholder="שם משתמש" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>סיסמא</mat-label>
+        <input matInput type="password" [(ngModel)]="password" name="password" placeholder="סיסמא"
+            (input)="checkPasswordStrength(password)" />
+        <mat-hint *ngIf="!passwordIsStrong && password.length > 0" style="color: red;">
+            ⚠️ הסיסמה אינה חזקה. מומלץ לכלול לפחות 8 תווים, אות גדולה, קטנה, מספר ותו מיוחד.
+        </mat-hint>
+    </mat-form-field>
+
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>מייל</mat-label>
+        <input matInput type="email" [(ngModel)]="email" name="email" placeholder="מייל" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>כתובת</mat-label>
+        <input matInput type="text" [(ngModel)]="address" name="address" placeholder="כתובת" />
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" type="submit">הרשם</button>
+
+</form>

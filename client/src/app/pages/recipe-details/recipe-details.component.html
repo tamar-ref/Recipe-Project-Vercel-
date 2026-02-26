@@ -1,0 +1,44 @@
+<ng-container *ngIf="recipe">
+    <mat-card class="recipe-card">
+        <mat-card-header>
+            <mat-card-title>{{ recipe.name }}</mat-card-title>
+            <mat-card-subtitle>{{ recipe.category.name }} • {{ recipe.time | duration }}</mat-card-subtitle>
+            
+        </mat-card-header>
+
+        <mat-card-content>
+            <p>{{ recipe.description }}</p>
+
+            <p><strong>דרגת קושי: </strong> <span *appRepeat="recipe.difficulty">*</span></p>
+            <p><strong>תאריך: </strong> {{ recipe.date | date:'dd/MM/yyyy HH:mm' }}</p>
+
+            <mat-divider class="divider"></mat-divider>
+
+            <h3>שכבות:</h3>
+
+            <div class="layer-header">
+                <div class="header-cell">מרכיבים</div>
+                <div class="header-cell">תיאור</div>
+            </div>
+
+            <div *ngFor="let layer of recipe.layers" class="layer-row">
+                <div class="layer-cell">{{ layer.ingredients }}</div>
+                <div class="layer-cell">{{ layer.description }}</div>
+            </div>
+
+            <mat-divider class="divider"></mat-divider>
+
+            <h3>הוראות הכנה:</h3>
+            <div *ngFor="let instruction of recipe.instructions; let i = index">
+                <p>{{ i + 1 }}. {{ instruction }}</p>
+            </div>
+        </mat-card-content>
+
+        <mat-card-actions *ngIf="recipeUserId === recipe.user._id" align="end">
+            <div *ngIf="recipeUserId === recipe.user._id" class="recipe-actions">
+                <button mat-flat-button color="primary" class="full-width" (click)="update()">עדכון</button>
+                <button mat-flat-button color="warn" class="full-width" (click)="delete()">מחיקה</button>
+            </div>
+        </mat-card-actions>
+    </mat-card>
+</ng-container>

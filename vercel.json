@@ -2,10 +2,10 @@
   "version": 2,
   "builds": [
     { "src": "api/index.js", "use": "@vercel/node" },
-    { "src": "client/dist/angular/**", "use": "@vercel/static" }
+    { "src": "client/dist/angular/browser/**", "use": "@vercel/static" }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/index.js" },
-    { "src": "/(.*)", "dest": "/client/dist/angular/index.html" }
+    { "src": "/(.*)", "dest": "/client/dist/angular/browser/index.html" }
   ]
 }

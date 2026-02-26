@@ -24,7 +24,7 @@ import {
     updateRecipe,
     deleteRecipe
 } from '../controllers/recipe.controller.js';
-import { auth } from '../middlewares/auth.middleware.js'; // לדוגמה
+import { auth, authAdmin } from "../middlewares/auth.middleware.js";
 
 const recipeRouter = Router();
 
@@ -49,7 +49,6 @@ recipeRouter.delete('/:id', auth, deleteRecipe);
 
 // ---------------user----------------
 import { getAllUsers, login, register, deleteUser, updatePassword } from "../controllers/user.controller.js";
-import { auth, authAdmin } from "../middlewares/auth.middleware.js";
 
 const userRouter = Router();
 

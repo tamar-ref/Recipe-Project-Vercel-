@@ -6,7 +6,7 @@ import { RecipeFormComponent } from './pages/recipe-form/recipe-form.component';
 import { MyRecipesComponent } from './components/my-recipes/my-recipes.component';
 import { RecipeDetailsComponent } from './pages/recipe-details/recipe-details.component';
 import { AllUsersComponent } from './components/all-users/all-users.component';
-import { UpdatePasswordComponent } from './components/update-password/update-password.component';
+import { UpdateDetailsComponent } from './components/update-details/update-details.component';
 
 export const routes: Routes = [
     { path: '', component: AllRecipesComponent },
@@ -18,5 +18,5 @@ export const routes: Routes = [
     { path: 'recipe/:id', component: RecipeDetailsComponent },
     { path: 'edit-recipe/:id', component: RecipeFormComponent },
     { path: 'users', component: AllUsersComponent },
-    { path: 'update-password', component: UpdatePasswordComponent },
+    { path: 'update-details', component: UpdateDetailsComponent },
 ];

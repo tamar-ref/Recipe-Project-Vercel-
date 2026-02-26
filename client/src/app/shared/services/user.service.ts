@@ -37,10 +37,16 @@ export class UserService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`, { headers });
   }
 
-  updatePassword(id: string | null, data: { password: string }): Observable<User> {
+  updateDetails(id: string | null, data: {
+    username?: string,
+    password?: string,
+    email?: string,
+    phone?: string,
+    role?: string,
+  }): Observable<User> {
     const user = localStorage.getItem('user');
     const token = user ? JSON.parse(user).token : null;
     const headers = token ? new HttpHeaders().set('Authorization', `Bearer ${token}`) : undefined;
-    return this.http.put<User>(`${this.baseUrl}/${id}/password`, data, { headers });
+    return this.http.put<User>(`${this.baseUrl}/${id}`, data, { headers });
   }
 }

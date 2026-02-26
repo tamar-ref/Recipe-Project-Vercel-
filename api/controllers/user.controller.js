@@ -44,7 +44,7 @@ export const register = async (req, res, next) => {
         if (v.error) {
             return next({ status: 400, message: v.error.message });
         }
-        const { username, password, email, phone, role: incomingRole } = req.body;
+        const { username, password, email, phone } = req.body;
 
         // בדיקה אם כבר קיים משתמש עם המייל הזה
         const existingUser = await User.findOne({ email });
@@ -76,7 +76,7 @@ export const deleteUser = async (req, res, next) => {
 
         const userToDelete = await User.findById(id);
 
-        if(userToDelete.role === 'admin') {
+        if (userToDelete.role === 'admin') {
             return next({ message: `you can't delete admin user` })
         }
 
@@ -87,29 +87,48 @@ export const deleteUser = async (req, res, next) => {
     }
 }
 
-export const updatePassword = async (req, res, next) => {
+export const updateDetails = async (req, res, next) => {
     try {
-        const { id } = req.params;
-        const { password } = req.body;
+        const id = req.params.id;
 
-        // בדיקה שהמשתמש מעדכן רק את עצמו
-        if (req.myUser._id !== id) {
-            return next({
-                status: 403, message: `user ${req.myUser._id} cannot update password for user ${id}`
-            });
+        const v = JoiUserSchemas.update.validate(req.body);
+        if (v.error) {
+            return next({ status: 400, message: v.error.message });
         }
-        // בדיקה בסיסית שהסיסמה קיימת
-        if (!password || password.length < 4) {
-            return next({ status: 400, message: 'Password is required and must be at least 4 characters' });
+
+        const user = await User.findById(id);
+        if (!user) return next({ status: 404, message: 'User not found' });
+
+        if (req.myUser._id !== id && req.myUser.role !== 'admin') {
+            return next({ status: 403, message: 'Not authorized to update this user' });
         }
-        // הצפנת הסיסמה החדשה
-        const salt = await bcrypt.genSalt(10);
-        const hash = await bcrypt.hash(password, salt);
 
-        // עדכון במסד
-        await User.findByIdAndUpdate(id, { password: hash });
+        const { username, password, email, phone, role: incomingRole } = req.body;
+        const updateData = {};
 
-        res.json({ message: 'Password updated successfully' });
+        if (username) updateData.username = username;
+        if (email) updateData.email = email;
+        if (phone !== undefined) updateData.phone = phone;
+        if (password) {
+            const salt = await bcrypt.genSalt(10);
+            const hash = await bcrypt.hash(password, salt);
+            updateData.password = hash;
+        }
+        if (incomingRole && req.myUser.role === 'admin') {
+            updateData.role = incomingRole;
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            id,
+            updateData,
+            { new: true }
+        );
+
+        res.json({
+            message: 'User updated successfully',
+            user: updatedUser
+        });
+
     }
     catch (error) {
         next({ message: error.message });

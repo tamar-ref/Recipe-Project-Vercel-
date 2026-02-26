@@ -50,6 +50,13 @@ export const JoiUserSchemas = {
         email: Joi.string().lowercase().required(),
         password: Joi.string().required(),
     }),
+    update: Joi.object({
+        username: Joi.string().optional(),
+        password: Joi.string().min(4).optional(),
+        email: Joi.string().email().lowercase().optional(),
+        phone: Joi.string().optional().allow(''),
+        role: Joi.string().valid('admin', 'user').optional()
+    })
 };
 
 export default model('users', userSchema);

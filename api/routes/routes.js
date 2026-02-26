@@ -48,7 +48,7 @@ recipeRouter.delete('/:id', auth, deleteRecipe);
 
 
 // ---------------user----------------
-import { getAllUsers, login, register, deleteUser, updatePassword } from "../controllers/user.controller.js";
+import { getAllUsers, login, register, deleteUser, updateDetails } from "../controllers/user.controller.js";
 
 const userRouter = Router();
 
@@ -61,7 +61,7 @@ userRouter.post('/register', register);
 // DELETE http://localhost:3000/users/5
 userRouter.delete('/:id', auth, deleteUser);
 // PUT http://localhost:3000/users/7/password
-userRouter.put('/:id/password', auth, updatePassword);
+userRouter.put('/:id', auth, updateDetails);
 
 
 

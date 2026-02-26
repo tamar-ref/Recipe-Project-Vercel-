@@ -63,6 +63,10 @@ userRouter.delete('/:id', auth, deleteUser);
 // PUT http://localhost:3000/users/7/password
 userRouter.put('/:id', auth, updateDetails);
 
+//userRouter.post('/forgot-password', forgotPassword);
+
+//userRouter.post('/reset-password/:token', resetPassword);
+
 
 
 

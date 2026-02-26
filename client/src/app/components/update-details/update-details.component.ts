@@ -33,7 +33,6 @@ export class UpdateDetailsComponent {
           this.username = user.username;
           this.email = user.email;
           this.phone = user.phone;
-          this.password = user.password;
         }
       },
       error: (err) => {

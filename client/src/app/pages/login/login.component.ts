@@ -17,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 export class LoginComponent {
   password: string = '';
   email: string = '';
+  message = '';
 
   constructor(private router: Router, private authService: AuthService, private userService: UserService) { }
 
@@ -38,6 +39,18 @@ export class LoginComponent {
     this.authService.email = this.email;
     this.authService.password = this.password;
     this.router.navigate(['/register']);
+  }
+
+  forgotPassword() {
+    if (!this.email) {
+      alert('אנא הכנס/י את המייל שלך כדי לקבל קישור לאיפוס סיסמה');
+      return;
+    }
+
+    this.authService.forgotPassword(this.email).subscribe({
+      next: res => this.message = res.message,
+      error: err => this.message = err.error.message || 'שגיאה בשליחת הקישור'
+    });
   }
 
 }

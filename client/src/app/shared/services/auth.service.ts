@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
@@ -14,7 +15,7 @@ export class AuthService {
 
   private token: string | null = null;
 
-  constructor() { this.loadUserFromStorage(); }
+  constructor(private http: HttpClient) { this.loadUserFromStorage(); }
   setToken(token: string) {
     this.token = token;
   }
@@ -30,7 +31,6 @@ export class AuthService {
       }
     }
   }
-
 
   setUser(userData: any) {
     localStorage.setItem('user', JSON.stringify(userData));
@@ -78,6 +78,14 @@ export class AuthService {
       console.error('שגיאה בפענוח הטוקן:', e);
       return false;
     }
+  }
+
+  forgotPassword(email: string) {
+    return this.http.post<{ message: string }>('http://localhost:3000/users/forgot-password', { email });
+  }
+
+  resetPassword(token: string, newPassword: string) {
+    return this.http.post<{ message: string }>(`http://localhost:3000/users/reset-password/${token}`, { newPassword });
   }
 
 }

@@ -7,7 +7,7 @@
 
     <mat-form-field appearance="fill" class="full-width">
         <mat-label>סיסמא</mat-label>
-        <input matInput type="password" [(ngModel)]="password"
+        <input matInput type="password" [(ngModel)]="password" name="password"
             (input)="checkPasswordStrength(password)" />
         <mat-hint *ngIf="!passwordIsStrong && password.length > 0" style="color: red;">
             ⚠️ הסיסמה אינה חזקה. מומלץ לכלול לפחות 8 תווים, אות גדולה, קטנה, מספר ותו מיוחד.

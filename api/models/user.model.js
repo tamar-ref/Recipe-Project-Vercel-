@@ -10,6 +10,8 @@ const userSchema = new Schema({
     phone: { type: String, required: false },
     role: { type: String, enum: ['admin', 'user'], default: 'user' },
     passwordStrength: { type: Boolean, default: false },
+    //resetPasswordToken: String,
+    //resetPasswordExpires: Date,
 });
 
 //הצפנת סיסמה לפני שמירת המשתמש

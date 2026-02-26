@@ -1,6 +1,15 @@
 <mat-card *ngIf="error === ''">
     <mat-table [dataSource]="users" class="mat-elevation-z2">
 
+        <ng-container matColumnDef="edit">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let user">
+                <button mat-icon-button>
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="username">
             <mat-header-cell *matHeaderCellDef> שם משתמש </mat-header-cell>
             <mat-cell *matCellDef="let user"> {{user.username}} </mat-cell>
@@ -16,9 +25,9 @@
             <mat-cell *matCellDef="let user"> {{user.email}} </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="address">
-            <mat-header-cell *matHeaderCellDef> כתובת </mat-header-cell>
-            <mat-cell *matCellDef="let user"> {{user.address}} </mat-cell>
+        <ng-container matColumnDef="phone">
+            <mat-header-cell *matHeaderCellDef> טלפון </mat-header-cell>
+            <mat-cell *matCellDef="let user"> {{user.phone}} </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="role">
@@ -26,10 +35,20 @@
             <mat-cell *matCellDef="let user"> {{user.role}} </mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="delete">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let user">
+                <button *ngIf="user.role !== 'admin'" mat-icon-button (click)="deleteUser(user._id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </mat-cell>
+        </ng-container>
+
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-
     </mat-table>
 </mat-card>
 
-<p>{{ error }}</p>
+<div class="error-message">
+    <p *ngIf="error">{{ error }}</p>
+</div>

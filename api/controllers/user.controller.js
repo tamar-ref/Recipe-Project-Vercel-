@@ -44,7 +44,7 @@ export const register = async (req, res, next) => {
         if (v.error) {
             return next({ status: 400, message: v.error.message });
         }
-        const { username, password, email, address, role: incomingRole } = req.body;
+        const { username, password, email, phone, role: incomingRole } = req.body;
 
         // בדיקה אם כבר קיים משתמש עם המייל הזה
         const existingUser = await User.findOne({ email });
@@ -55,7 +55,7 @@ export const register = async (req, res, next) => {
         const usersCount = await User.countDocuments();
         const role = incomingRole || (usersCount === 0 ? 'admin' : 'user');
 
-        const user = new User({ username, password, email, address, role });
+        const user = new User({ username, password, email, phone, role });
         await user.save();
 
         const token = generateToken(user);
@@ -74,7 +74,13 @@ export const deleteUser = async (req, res, next) => {
             return next({ status: 403, message: `user ${req.myUser._id} is not authorized to delete user ${id}` })
         }
 
-        await User.findByIdAndDelete(id);
+        const userToDelete = await User.findById(id);
+
+        if(userToDelete.role === 'admin') {
+            return next({ message: `you can't delete admin user` })
+        }
+
+        await userToDelete.deleteOne();
         res.status(204).end();
     } catch (error) {
         next({ message: error.message });

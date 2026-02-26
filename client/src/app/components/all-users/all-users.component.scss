@@ -10,10 +10,32 @@ mat-table {
 
 mat-header-cell,
 mat-cell {
-    text-align: right;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
 mat-header-cell {
     color: #3f51b5;
     font-weight: bold;
+}
+
+.error-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    text-align: center;
+}
+
+.error-message p {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+button {
+    border: none;
+    background-color: white;
+    cursor: pointer;
 }

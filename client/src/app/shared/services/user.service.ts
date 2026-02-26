@@ -26,11 +26,11 @@ export class UserService {
     return this.http.post<User>(`${this.baseUrl}/login`, credentials);
   }
 
-  register(userData: { username: string, password: string, email: string, address: string }): Observable<User> {
+  register(userData: { username: string, password: string, email: string, phone: string }): Observable<User> {
     return this.http.post<User>(`${this.baseUrl}/register`, userData);
   }
 
-  deleteUser(id: number): Observable<void> {
+  deleteUser(id: string): Observable<void> {
     const user = localStorage.getItem('user');
     const token = user ? JSON.parse(user).token : null;
     const headers = token ? new HttpHeaders().set('Authorization', `Bearer ${token}`) : undefined;

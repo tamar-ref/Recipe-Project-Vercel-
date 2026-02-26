@@ -19,7 +19,7 @@ export class RegisterComponent implements OnInit {
   username: string = '';
   password: string = '';
   email: string = '';
-  address: string = '';
+  phone: string = '';
   passwordIsStrong: boolean = false;
 
   constructor(private authData: AuthService, private userService: UserService, private router: Router) { }
@@ -34,7 +34,7 @@ export class RegisterComponent implements OnInit {
       username: this.username,
       email: this.email,
       password: this.password,
-      address: this.address
+      phone: this.phone
     }).subscribe({
       next: (res) => {
         if (res.username) {

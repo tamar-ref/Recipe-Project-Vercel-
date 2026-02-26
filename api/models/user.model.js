@@ -7,7 +7,7 @@ const userSchema = new Schema({
     username: { type: String, required: true },
     password: { type: String, required: true, minlength: 4 },
     email: { type: String, unique: true, required: true },
-    address: { type: String, required: true },
+    phone: { type: String, required: false },
     role: { type: String, enum: ['admin', 'user'], default: 'user' },
     passwordStrength: { type: Boolean, default: false },
 });
@@ -44,7 +44,7 @@ export const JoiUserSchemas = {
         username: Joi.string().required(),
         password: Joi.string().min(4).required(),
         email: Joi.string().email().lowercase().required(),
-        address: Joi.string().required(),
+        phone: Joi.string().optional().allow(''),
     }),
     login: Joi.object({
         email: Joi.string().lowercase().required(),

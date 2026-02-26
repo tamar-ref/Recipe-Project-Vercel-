@@ -9,12 +9,12 @@
       "src": "client/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "client/dist/angular" 
+        "distDir": "client/dist/angular"
       }
     }
   ],
   "routes": [
     { "src": "/api/(.*)", "dest": "/api/index.js" },
-    { "src": "/(.*)", "dest": "client/dist/$1" }
+    { "src": "/(.*)", "dest": "/client/dist/angular/index.html" }
   ]
 }

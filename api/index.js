@@ -3,9 +3,7 @@ import { connectDB } from './config/db.js';
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import categoryRouter from './routes/category.router.js'
-import recipeRouter from './routes/recipe.router.js';
-import userRouter from './routes/user.router.js';
+import { categoryRouter, recipeRouter, userRouter } from './routes/routes.js';
 import { errorHandler, notFound } from './middlewares/errorHandling.middleware.js';
 import serverless from "serverless-http";
 

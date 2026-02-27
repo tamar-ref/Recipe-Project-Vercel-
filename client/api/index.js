@@ -15,10 +15,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use(cors());
 
-app.use('/api/categories', categoryRouter);
-app.use('/api/recipes', recipeRouter);
-app.use('/api/users', userRouter);
-app.get('/api/', (req, res) => {
+app.use('/categories', categoryRouter);
+app.use('/recipes', recipeRouter);
+app.use('/users', userRouter);
+app.get('/', (req, res) => {
   res.send('Hello World!');
 });
 

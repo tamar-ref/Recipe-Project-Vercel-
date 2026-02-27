@@ -9,7 +9,7 @@
       "src": "client/package.json",
       "use": "@vercel/static-build",
       "config": {
-        "outputDirectory": "client/dist/angular"
+        "outputDirectory": "dist/angular/browser"
       }
     }
   ],
@@ -20,7 +20,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/client/dist/angular/browser/index.html"
+      "dest": "index.html"
     }
   ]
 }

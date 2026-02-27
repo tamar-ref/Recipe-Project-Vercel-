@@ -8,8 +8,7 @@ import { HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl = 'http://localhost:3000/users';
-
+  private baseUrl =/* environment.production ? */'/api/users' /*: 'http://localhost:3000/users';*/
   constructor(private http: HttpClient) { }
 
   getAllUsers(): Observable<User[]> {

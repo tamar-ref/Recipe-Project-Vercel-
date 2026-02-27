@@ -9,8 +9,7 @@ import { HttpHeaders } from '@angular/common/http';
     providedIn: 'root'
 })
 export class RecipeService {
-    private baseUrl = 'http://localhost:3000/recipes';
-
+    private baseUrl =/* environment.production ? */'/api/recipes' /*: 'http://localhost:3000/recipes';*/
     constructor(private http: HttpClient) { }
 
     getAllRecipes(userId?: string | null | undefined, search: string = ''): Observable<Recipe[]> {

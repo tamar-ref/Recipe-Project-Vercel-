@@ -19,7 +19,7 @@ app.use(cors());
 app.use('/api/categories', categoryRouter);
 app.use('/api/recipes', recipeRouter);
 app.use('/api/users', userRouter);
-app.get('api/', (req, res) => {
+app.get('/api/', (req, res) => {
   res.send('Hello World!');
 });
 

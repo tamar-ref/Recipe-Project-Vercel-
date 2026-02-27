@@ -2,7 +2,7 @@
 import { Router } from "express";
 import { getAllCategories, getAllCategoriesAndRecipes, getCategoryByCodeOrNameAndRecipes } from "../controllers/category.controller.js";
 
-const categoryRouter = Router();
+export const categoryRouter = Router();
 
 // GET http://localhost:3000/categories
 categoryRouter.get('/', getAllCategories);
@@ -26,7 +26,7 @@ import {
 } from '../controllers/recipe.controller.js';
 import { auth, authAdmin } from "../middlewares/auth.middleware.js";
 
-const recipeRouter = Router();
+export const recipeRouter = Router();
 
 // GET http://localhost:5000/recipes
 // GET http://localhost:5000/recipes?search=עוגה&limit=5&page=2
@@ -50,7 +50,7 @@ recipeRouter.delete('/:id', auth, deleteRecipe);
 // ---------------user----------------
 import { getAllUsers, login, register, deleteUser, updateDetails } from "../controllers/user.controller.js";
 
-const userRouter = Router();
+export const userRouter = Router();
 
 // GET http://localhost:3000/users
 userRouter.get('/', auth, authAdmin, getAllUsers);
@@ -62,6 +62,3 @@ userRouter.post('/register', register);
 userRouter.delete('/:id', auth, deleteUser);
 // PUT http://localhost:3000/users/7/password
 userRouter.put('/:id', auth, updateDetails);
-
-
-export { categoryRouter, recipeRouter, userRouter };

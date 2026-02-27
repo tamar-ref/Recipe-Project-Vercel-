@@ -21,7 +21,7 @@ app.use('/api/users', userRouter);
 app.get('/api/', (req, res) => {
   res.send('Hello World!');
 });
-
+app.get('/api/recipes/test', (req, res) => res.send('Recipes path is working!'));
 app.use(notFound);
 app.use(errorHandler);
 if (process.env.NODE_ENV !== "production") {

@@ -5,7 +5,6 @@ import morgan from 'morgan';
 import cors from 'cors';
 import { categoryRouter, recipeRouter, userRouter } from './routes/routes.js';
 import { errorHandler, notFound } from './middlewares/errorHandling.middleware.js';
-import serverless from "serverless-http";
 
 config();
 connectDB();
@@ -30,4 +29,4 @@ if (process.env.NODE_ENV !== "production") {
     console.log("Server running on http://localhost:3000");
   });
 }
-export default serverless(app);
+export default app;

@@ -21,7 +21,7 @@ app.use('/api/users', userRouter);
 app.get('/api', (req, res) => {
   res.send('Hello World!');
 });
-app.get('/test', (req, res) => {
+app.get('/api/test', (req, res) => {
   res.send('Hello World!2');
 }); app.use(notFound);
 app.use(errorHandler);

@@ -15,19 +15,37 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use(cors());
 
-app.use('/api/categories', categoryRouter);
-app.use('/api/recipes', recipeRouter);
-app.use('/api/users', userRouter);
-app.get('/api', (req, res) => {
+/**
+ * הפתרון ללא vercel.json:
+ * אנחנו מגדירים ראוטר מרכזי שתופס את כל הנתיבים שתחת /api
+ */
+const mainRouter = express.Router();
+
+mainRouter.use('/categories', categoryRouter);
+mainRouter.use('/recipes', recipeRouter);
+mainRouter.use('/users', userRouter);
+
+mainRouter.get('/', (req, res) => {
   res.send('Hello World!');
 });
-app.get('/api/test', (req, res) => {
-  res.send('Hello World!2');
-}); app.use(notFound);
+
+// כאן הקסם: אנחנו אומרים לאפליקציה להשתמש בראוטר הזה עבור הכתובת של הקובץ
+app.use('/api', mainRouter);
+
+/**
+ * חשוב מאוד: ב-Vercel, כשאין הגדרות, הקובץ index.js בתיקיית api
+ * מקבל לעיתים את הנתיב כאילו הוא בשורש. השורה הבאה מוודאת שגם
+ * נתיבים "ערומים" יעבדו.
+ */
+app.use('/', mainRouter); 
+
+app.use(notFound);
 app.use(errorHandler);
+
 if (process.env.NODE_ENV !== "production") {
   app.listen(3000, () => {
     console.log("Server running on http://localhost:3000");
   });
 }
+
 export default app;

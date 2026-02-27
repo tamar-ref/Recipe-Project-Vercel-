@@ -41,16 +41,4 @@ export class LoginComponent {
     this.router.navigate(['/register']);
   }
 
-  // forgotPassword() {
-  //   if (!this.email) {
-  //     alert('אנא הכנס/י את המייל שלך כדי לקבל קישור לאיפוס סיסמה');
-  //     return;
-  //   }
-
-  //   this.authService.forgotPassword(this.email).subscribe({
-  //     next: res => this.message = res.message,
-  //     error: err => this.message = err.error.message || 'שגיאה בשליחת הקישור'
-  //   });
-  // }
-
 }

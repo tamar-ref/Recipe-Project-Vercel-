@@ -80,12 +80,4 @@ export class AuthService {
     }
   }
 
-  // forgotPassword(email: string) {
-  //   return this.http.post<{ message: string }>('http://localhost:3000/users/forgot-password', { email });
-  // }
-
-  // resetPassword(token: string, newPassword: string) {
-  //   return this.http.post<{ message: string }>(`http://localhost:3000/users/reset-password/${token}`, { newPassword });
-  // }
-
 }

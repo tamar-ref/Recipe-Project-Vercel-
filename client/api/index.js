@@ -18,11 +18,12 @@ app.use(cors());
 app.use('/api/categories', categoryRouter);
 app.use('/api/recipes', recipeRouter);
 app.use('/api/users', userRouter);
-app.get('/api/', (req, res) => {
+app.get('/api', (req, res) => {
   res.send('Hello World!');
 });
-app.get('/api/recipes/test/', (req, res) => res.send('Recipes path is working!'));
-app.use(notFound);
+app.get('/test', (req, res) => {
+  res.send('Hello World!2');
+}); app.use(notFound);
 app.use(errorHandler);
 if (process.env.NODE_ENV !== "production") {
   app.listen(3000, () => {

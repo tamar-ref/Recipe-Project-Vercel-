@@ -9,6 +9,7 @@ import { UserService } from '../../shared/services/user.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
+import { LoaderComponent } from '../../components/loader/loader.component';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,7 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-recipe-details',
   standalone: true,
-  imports: [DurationPipe, RepeatDirective, CommonModule, MatCardModule, MatButtonModule, MatDividerModule],
+  imports: [DurationPipe, RepeatDirective, CommonModule, MatCardModule, MatButtonModule, MatDividerModule, LoaderComponent],
   templateUrl: './recipe-details.component.html',
   styleUrl: './recipe-details.component.scss'
 })
@@ -26,18 +27,26 @@ export class RecipeDetailsComponent implements OnInit {
   recipeUserId: string | null = null;
   recipe: Recipe | null = null;
   error: string = '';
+  isDataLoading: boolean = false;
 
   constructor(private recipeService: RecipeService, private route: ActivatedRoute, private userService: UserService, private authService: AuthService, private router: Router, private dialog: MatDialog) { }
 
   ngOnInit(): void {
+    this.isDataLoading = true;
     const userStr = localStorage.getItem('user');
     const token = userStr ? JSON.parse(userStr).token : null;
     this.recipeUserId = this.authService.getUserIdFromToken();
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.recipeService.getRecipeById(id).subscribe({
-        next: (data) => this.recipe = data,
-        error: (err) => this.error = 'שגיאה בטעינת המתכון'
+        next: (data) => {
+          this.recipe = data;
+          this.isDataLoading = false;
+        },
+        error: (err) => {
+          this.error = 'שגיאה בטעינת המתכון';
+          this.isDataLoading = false;
+        }
       });
     }
     else {
@@ -52,12 +61,15 @@ export class RecipeDetailsComponent implements OnInit {
   }
 
   delete() {
+    this.isDataLoading = true;
     if (this.recipe && this.recipe._id) {
       this.recipeService.deleteRecipe(this.recipe._id).subscribe({
         next: () => {
+          this.isDataLoading = false;
           this.router.navigate(['/']);
         },
         error: (err) => {
+          this.isDataLoading = false;
           alert(err.error.error)
         }
       });
@@ -73,7 +85,7 @@ export class RecipeDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
         this.delete();
-      } 
+      }
     });
   }
 

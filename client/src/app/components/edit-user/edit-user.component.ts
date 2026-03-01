@@ -8,16 +8,18 @@ import { User } from '../../shared/models/user.model';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { LoaderComponent } from '../loader/loader.component';
 
 @Component({
   selector: 'app-edit-user',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatDialogModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule],
+  imports: [CommonModule, FormsModule, MatDialogModule, MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule, LoaderComponent],
   templateUrl: './edit-user.component.html',
   styleUrl: './edit-user.component.scss'
 })
 export class EditUserComponent implements OnInit {
   user: User | null = null;
+  isDataLoading: boolean = false;
   passwordInput: string = ''; // שדה זמני עבור הסיסמה,
 
   constructor(
@@ -27,13 +29,21 @@ export class EditUserComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.isDataLoading = true;
     this.userService.getUserById(this.data.userId).subscribe({
-      next: (res) => this.user = res,
-      error: () => alert('שגיאה בטעינת המשתמש')
+      next: (res) => {
+        this.user = res;
+        this.isDataLoading = false;
+      },
+      error: () => {
+        alert('שגיאה בטעינת המשתמש');
+        this.isDataLoading = false;
+      }
     });
   }
 
   save() {
+    this.isDataLoading = true;
     if (!this.user) return;
 
     const payload: any = {
@@ -47,8 +57,14 @@ export class EditUserComponent implements OnInit {
     }
 
     this.userService.updateDetails(this.data.userId, payload).subscribe({
-      next: () => this.dialogRef.close(true),
-      error: (err) => console.log(err.error || 'שגיאה בעדכון המשתמש')
+      next: () => {
+        this.isDataLoading = false;
+        this.dialogRef.close(true);
+      },
+      error: (err) => {
+        this.isDataLoading = false;
+        console.log(err.error || 'שגיאה בעדכון המשתמש');
+      }
     });
   }
 

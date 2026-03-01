@@ -7,6 +7,7 @@ import { RecipeService } from '../../shared/services/recipe.service';
 import { Router } from '@angular/router';
 import { Recipe } from '../../shared/models/recipe.model';
 import { ActivatedRoute } from '@angular/router';
+import { LoaderComponent } from '../../components/loader/loader.component';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -18,7 +19,7 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-recipe-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatRadioModule, MatIconModule],
+  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatRadioModule, MatIconModule, LoaderComponent],
   templateUrl: './recipe-form.component.html',
   styleUrl: './recipe-form.component.scss'
 })
@@ -39,12 +40,14 @@ export class RecipeFormComponent implements OnInit {
   src: string = '';
   instructions: string[] = [''];
   isPrivate: boolean = false;
+  isDataLoading: boolean = false;
 
   constructor(private categoryService: CategoryService, private recipeService: RecipeService, private router: Router, private route: ActivatedRoute,) { }
 
   categories: Category[] = [];
 
   ngOnInit(): void {
+    this.isDataLoading = true;
     const id = this.route.snapshot.paramMap.get('id');
     this.isEditMode = !!id;
     if (id) {
@@ -61,14 +64,19 @@ export class RecipeFormComponent implements OnInit {
           this.instructions = [...this.recipeToEdit.instructions];
           this.isPrivate = this.recipeToEdit.isPrivate;
         },
-        error: () => console.error('שגיאה בטעינת מתכון לעריכה')
+        error: () => {
+          console.error('שגיאה בטעינת מתכון לעריכה')
+        }
       });
     }
 
     this.categoryService.getAllCategories().subscribe({
-      next: (data) => this.categories = data,
+      next: (data) => {
+        this.categories = data
+        this.isDataLoading = false;
+      },
       error: (err) => {
-        //console.error('שגיאה בטעינת קטגוריות', err.message)
+        this.isDataLoading = false;
         alert('שגיאה בטעינת קטגוריות')
       }
     });
@@ -155,14 +163,17 @@ export class RecipeFormComponent implements OnInit {
       });
     }
     else {
+      this.isDataLoading = true;
       this.recipeService.addRecipe(formData).subscribe({
         next: (res) => {
+          this.isDataLoading = false;
           this.router.navigate(['/']);
         },
         error: (err) => {
+          this.isDataLoading = false;
           console.error('Error adding recipe:', err);
           alert(err.error.error)
-        }
+        },
       });
     }
 

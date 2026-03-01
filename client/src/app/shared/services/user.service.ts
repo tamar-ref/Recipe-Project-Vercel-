@@ -8,8 +8,8 @@ import { HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl = '/api/users';
-  //private baseUrl = 'http://localhost:3000/api/users';
+  //private baseUrl = '/api/users';
+  private baseUrl = 'http://localhost:3000/api/users';
 
   constructor(private http: HttpClient) { }
 

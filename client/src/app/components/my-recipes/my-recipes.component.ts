@@ -7,6 +7,7 @@ import { AuthService } from '../../shared/services/auth.service';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DurationPipe } from '../../shared/pipes/duration.pipe';
+import { LoaderComponent } from "../../components/loader/loader.component";
 
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -15,7 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 @Component({
   selector: 'app-my-recipes',
   standalone: true,
-  imports: [FormsModule, DurationPipe, RepeatDirective, CommonModule, RouterModule, MatCardModule, MatFormFieldModule, MatInputModule],
+  imports: [FormsModule, DurationPipe, RepeatDirective, CommonModule, RouterModule, MatCardModule, MatFormFieldModule, MatInputModule, LoaderComponent],
   templateUrl: '../../pages/all-recipes/all-recipes.component.html',
   styleUrl: '../../pages/all-recipes/all-recipes.component.scss'
 })
@@ -27,6 +28,7 @@ export class MyRecipesComponent implements OnInit {
   searchTerm: string = '';
   categorySearchTerm: string = '';
   maxTimeInput: number | null = null;
+  isDataLoading: boolean = false;
 
   constructor(private recipeService: RecipeService, private authService: AuthService) { }
 
@@ -35,13 +37,16 @@ export class MyRecipesComponent implements OnInit {
   }
 
   loadRecipes() {
+    this.isDataLoading = true;
     this.recipeService.getMyRecipes().subscribe({
       next: (data) => {
         this.recipes = data;
         this.filterRecipes();
+        this.isDataLoading = false;
       },
       error: (err) => {
         this.error = 'שגיאה בטעינת מתכונים';
+        this.isDataLoading = false;
       }
     });
   }

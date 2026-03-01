@@ -3,6 +3,7 @@ import { UserService } from '../../shared/services/user.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../shared/services/auth.service';
+import { LoaderComponent } from '../loader/loader.component';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -10,7 +11,7 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-update-details',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatInputModule, MatButtonModule],
+  imports: [CommonModule, FormsModule, MatInputModule, MatButtonModule, LoaderComponent],
   templateUrl: './update-details.component.html',
   styleUrl: './update-details.component.scss'
 })
@@ -22,10 +23,12 @@ export class UpdateDetailsComponent {
   successMessage: string = '';
   errorMessage: string = '';
   passwordIsStrong: boolean = false;
+  isDataLoading: boolean = false;
 
   constructor(private userService: UserService, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.isDataLoading = true;
     this.userService.getAllUsers().subscribe({
       next: (users) => {
         const user = users.find(u => u._id === this.authService.getUserIdFromToken());
@@ -34,15 +37,18 @@ export class UpdateDetailsComponent {
           this.email = user.email;
           this.phone = user.phone;
         }
+        this.isDataLoading = false;
       },
       error: (err) => {
         console.error('Error fetching users:', err);
         this.errorMessage = 'שגיאה בטעינת משתמשים';
+        this.isDataLoading = false;
       }
     });
   }
 
   updateDetails() {
+    this.isDataLoading = true;
     const userId = this.authService.getUserIdFromToken();
 
     this.userService.updateDetails(userId, {
@@ -59,9 +65,11 @@ export class UpdateDetailsComponent {
             token: oldUser?.token
           }; this.authService.setUser(updatedUser);
         }
+        this.isDataLoading = false;
         alert('הפרטים עודכנו בהצלחה');
       },
       error: (err) => {
+        this.isDataLoading = false;
         alert(err.error.error)
       }
     });

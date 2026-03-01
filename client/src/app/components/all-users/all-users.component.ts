@@ -6,6 +6,7 @@ import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-
 import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { EditUserComponent } from '../../components/edit-user/edit-user.component';
+import { LoaderComponent } from '../loader/loader.component';
 
 import { MatTableModule } from '@angular/material/table';
 import { MatCardModule } from '@angular/material/card';
@@ -15,7 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-all-users',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatCardModule, MatIconModule],
+  imports: [CommonModule, MatTableModule, MatCardModule, MatIconModule, LoaderComponent],
   templateUrl: './all-users.component.html',
   styleUrl: './all-users.component.scss'
 })
@@ -23,28 +24,35 @@ export class AllUsersComponent {
   error: string = '';
   users: User[] = [];
   displayedColumns: string[] = ['edit', 'username', 'passwordStrength', 'email', 'phone', 'role', 'delete'];
+  isDataLoading: boolean = false;
 
   constructor(private userService: UserService, private dialog: MatDialog, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
+    this.isDataLoading = true;
     this.userService.getAllUsers().subscribe({
       next: (data) => {
         this.users = data;
+        this.isDataLoading = false;
       },
       error: (err) => {
         console.error('Error fetching users:', err);
         this.error = 'שגיאה בטעינת משתמשים';
+        this.isDataLoading = false;
       }
     });
   }
 
   deleteUser(userId: string): void {
+    this.isDataLoading = true;
     this.userService.deleteUser(userId).subscribe({
       next: () => {
         this.users = this.users.filter(u => u._id !== userId);
+        this.isDataLoading = false;
       },
       error: (err) => {
         console.error('Error fetching users:', err);
+        this.isDataLoading = false;
         alert(err.error.error || 'שגיאה במחיקת משתמש');
       }
     });

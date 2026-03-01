@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { UserService } from '../../shared/services/user.service';
 import { CommonModule } from '@angular/common';
+import { LoaderComponent } from '../../components/loader/loader.component';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatInputModule, MatButtonModule],
+  imports: [CommonModule, FormsModule, MatInputModule, MatButtonModule, LoaderComponent],
   templateUrl: './register.component.html',
   styleUrl: './register.component.scss'
 })
@@ -21,6 +22,7 @@ export class RegisterComponent implements OnInit {
   email: string = '';
   phone: string = '';
   passwordIsStrong: boolean = false;
+  isDataLoading: boolean = false;
 
   constructor(private authData: AuthService, private userService: UserService, private router: Router) { }
 
@@ -30,6 +32,7 @@ export class RegisterComponent implements OnInit {
   }
 
   register() {
+    this.isDataLoading = true;
     this.userService.register({
       username: this.username,
       email: this.email,
@@ -40,9 +43,11 @@ export class RegisterComponent implements OnInit {
         if (res.username) {
           this.authData.setUser(res);
         }
+        this.isDataLoading = false;
         this.router.navigate(['/']);
       },
       error: (err) => {
+        this.isDataLoading = false;
         alert(err.error.error)
       }
     });

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { UserService } from '../../shared/services/user.service';
 import { LoaderComponent } from '../../components/loader/loader.component';
+import { CommonModule } from '@angular/common';
 
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,7 +12,7 @@ import { MatButtonModule } from '@angular/material/button';
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [FormsModule, MatInputModule, MatButtonModule, LoaderComponent],
+  imports: [FormsModule, MatInputModule, MatButtonModule, LoaderComponent, CommonModule],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
 })

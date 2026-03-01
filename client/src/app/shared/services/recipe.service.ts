@@ -9,7 +9,9 @@ import { HttpHeaders } from '@angular/common/http';
     providedIn: 'root'
 })
 export class RecipeService {
-    private baseUrl =  /*'/api/recipes' :*/ 'http://localhost:3000/api/recipes';
+    private baseUrl = '/api/recipes';
+    //private baseUrl = 'http://localhost:3000/api/recipes';
+
     constructor(private http: HttpClient) { }
 
     getAllRecipes(userId?: string | null | undefined, search: string = ''): Observable<Recipe[]> {

@@ -7,7 +7,8 @@
 
     <mat-form-field appearance="fill" class="full-width">
         <mat-label>תיאור</mat-label>
-        <input matInput type="text" [(ngModel)]="description" [ngModelOptions]="{ standalone: true }">
+        <textarea matInput cdkTextareaAutosize [(ngModel)]="description"
+            [ngModelOptions]="{ standalone: true }"></textarea>
     </mat-form-field>
 
     <mat-form-field appearance="fill" class="full-width">
@@ -43,7 +44,8 @@
         </mat-form-field>
         <mat-form-field appearance="fill" class="half-width">
             <mat-label>תיאור</mat-label>
-            <input matInput [value]="layer.description" (input)="updateLayer(i, 'description', $event)" />
+            <textarea matInput cdkTextareaAutosize [value]="layer.description"
+                (input)="updateLayer(i, 'description', $event)"></textarea>
         </mat-form-field>
         <button mat-icon-button color="warn" type="button" (click)="removeLayer(i)" *ngIf="layers.length > 1">
             <mat-icon>remove</mat-icon>
@@ -66,8 +68,8 @@
     <div class="instruction-row" *ngFor="let instruction of instructions; let i = index; trackBy: trackByIndex">
         <mat-form-field appearance="fill" class="full-width">
             <mat-label>שלב {{ i + 1 }}</mat-label>
-            <input matInput [(ngModel)]="instructions[i]" [ngModelOptions]="{ standalone: true }"
-                name="instruction{{i}}" />
+            <textarea matInput cdkTextareaAutosize [(ngModel)]="instructions[i]" [ngModelOptions]="{ standalone: true }"
+                name="instruction{{i}}"></textarea>
         </mat-form-field>
 
         <button mat-icon-button color="warn" type="button" (click)="removeInstruction(i)"
@@ -81,14 +83,14 @@
 
 
     <label class="section-label">האם פרטי?</label>
-    <mat-radio-group [(ngModel)]="isPrivate" [ngModelOptions]="{ standalone: true }">
-        <mat-radio-button [value]="true">כן</mat-radio-button>
+    <mat-radio-group [(ngModel)]="isPrivate" [ngModelOptions]="{ standalone: true }" color="primary">
         <mat-radio-button [value]="false">לא</mat-radio-button>
+        <mat-radio-button [value]="true">כן</mat-radio-button>
     </mat-radio-group>
 
     <div class="form-actions">
-        <button mat-flat-button color="primary" class="full-width" type="button" (click)="addRecipe()">שמירה</button>
-        <button mat-stroked-button color="accent" class="full-width" type="reset" *ngIf="!isEditMode">איפוס</button>
+        <button mat-raised-button color="primary" class="full-width" type="button" (click)="addRecipe()">שמירה</button>
+        <button mat-raised-button class="full-width" type="reset" *ngIf="!isEditMode">איפוס</button>
     </div>
 
 

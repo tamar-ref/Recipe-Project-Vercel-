@@ -12,14 +12,15 @@
 
 .half-width {
     width: 48%;
-    display: inline-block;
     margin-inline-end: 4%;
+    display: flex;
 }
 
 .layer {
     display: flex;
     align-items: center;
     gap: 10px;
+    align-items: stretch;
 }
 
 .section-label {

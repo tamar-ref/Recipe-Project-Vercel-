@@ -3,7 +3,7 @@
         <mat-card-header>
             <mat-card-title>{{ recipe.name }}</mat-card-title>
             <mat-card-subtitle>{{ recipe.category.name }}</mat-card-subtitle>
-            <mat-card-subtitle>{{ recipe.time | duration }}</mat-card-subtitle>
+            <mat-card-subtitle>⏱ {{ recipe.time | duration }}</mat-card-subtitle>
         </mat-card-header>
 
         <mat-card-content>
@@ -14,12 +14,7 @@
 
             <mat-divider class="divider"></mat-divider>
 
-            <h3>שכבות:</h3>
-
-            <div class="layer-header">
-                <div class="header-cell">מרכיבים</div>
-                <div class="header-cell">תיאור</div>
-            </div>
+            <h3>מרכיבים</h3>
 
             <div *ngFor="let layer of recipe.layers; let last = last" [class.with-divider]="!last">
                 <div class="layer-row">
@@ -33,16 +28,17 @@
 
             <mat-divider class="divider"></mat-divider>
 
-            <h3>הוראות הכנה:</h3>
+            <h3>הוראות הכנה</h3>
             <div *ngFor="let instruction of recipe.instructions; let i = index">
-                <p class="instruction">{{ i + 1 }}. {{ instruction }}</p>
+                <b>{{ i + 1 }}.</b>
+                <p class="instruction">{{ instruction }}</p>
             </div>
         </mat-card-content>
 
         <mat-card-actions *ngIf="recipeUserId === recipe.user._id" align="end">
             <div *ngIf="recipeUserId === recipe.user._id" class="recipe-actions">
-                <button mat-flat-button color="primary" class="full-width" (click)="update()">עריכה</button>
-                <button mat-flat-button color="warn" class="full-width" (click)="confirmAction()">מחיקה</button>
+                <button mat-raised-button color="primary" class="full-width" (click)="update()">עריכה</button>
+                <button mat-raised-button color="warn" class="full-width" (click)="confirmAction()">מחיקה</button>
             </div>
         </mat-card-actions>
     </mat-card>

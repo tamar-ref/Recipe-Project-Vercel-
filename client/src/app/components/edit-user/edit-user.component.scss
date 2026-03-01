@@ -1,0 +1,46 @@
+h2 {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 0;
+}
+
+.user-form {
+    width: 300px;
+    margin: 50px auto;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    direction: rtl;
+    text-align: right;
+    gap: 10px;
+    margin: 20px auto;
+}
+
+mat-select {
+    text-align: right;
+    direction: rtl;
+}
+
+.section-label {
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+mat-dialog-content {
+    overflow: hidden;
+    padding-top: 0;
+}
+
+*{
+    direction: rtl;
+    text-align: right;
+}
+
+mat-dialog-content h3{
+  width: 300px;
+  text-align: center;
+}
+
+mat-dialog-actions{
+    gap: 8px;
+}

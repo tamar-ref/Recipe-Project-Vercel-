@@ -1,42 +1,42 @@
 <div *ngIf="user">
-    <h2 mat-dialog-title>עריכת משתמש</h2>
-
     <mat-dialog-content>
-        <div *ngIf="user">
-            <mat-form-field appearance="fill" class="full-width">
-                <mat-label>שם משתמש</mat-label>
-                <input matInput type="text" [(ngModel)]="user.username" name="username" />
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="full-width">
-                <mat-label>סיסמא</mat-label>
-                <input matInput type="password" [(ngModel)]="passwordInput" name="password" />
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="full-width">
-                <mat-label>מייל</mat-label>
-                <input matInput type="email" [(ngModel)]="user.email" name="email" />
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="full-width">
-                <mat-label>טלפון</mat-label>
-                <input matInput type="text" [(ngModel)]="user.phone" name="phone" />
-            </mat-form-field>
-
-            <mat-form-field appearance="fill" class="full-width">
-                <mat-label>תפקיד</mat-label>
-                <mat-select [(ngModel)]="user.role" [ngModelOptions]="{ standalone: true }">
-                    <mat-option value="admin">admin</mat-option>
-                    <mat-option value="user">user</mat-option>
-                </mat-select>
-            </mat-form-field>
-
-        </div>
+        <h3 mat-dialog-title>עריכת משתמש</h3>
     </mat-dialog-content>
 
+    <div class="user-form">
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>שם משתמש</mat-label>
+            <input matInput type="text" [(ngModel)]="user.username" name="username" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>סיסמא</mat-label>
+            <input matInput type="password" [(ngModel)]="passwordInput" name="password" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>מייל</mat-label>
+            <input matInput type="email" [(ngModel)]="user.email" name="email" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>טלפון</mat-label>
+            <input matInput type="text" [(ngModel)]="user.phone" name="phone" />
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>תפקיד</mat-label>
+            <mat-select [(ngModel)]="user.role" [ngModelOptions]="{ standalone: true }">
+                <mat-option value="admin">admin</mat-option>
+                <mat-option value="user">user</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+    </div>
+
     <mat-dialog-actions align="end">
-        <button mat-button (click)="close()">ביטול</button>
+        <button mat-raised-button (click)="close()">ביטול</button>
         <button mat-raised-button color="primary" (click)="save()">שמור</button>
     </mat-dialog-actions>
-
 </div>

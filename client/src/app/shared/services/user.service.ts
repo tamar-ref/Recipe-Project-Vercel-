@@ -8,7 +8,7 @@ import { HttpHeaders } from '@angular/common/http';
   providedIn: 'root'
 })
 export class UserService {
-  private baseUrl =/* environment.production ? */'/api/users' /*: 'http://localhost:3000/users';*/
+  private baseUrl =  /*'/api/users' :*/ 'http://localhost:3000/api/users';
   constructor(private http: HttpClient) { }
 
   getAllUsers(): Observable<User[]> {
@@ -19,6 +19,16 @@ export class UserService {
       headers = token ? new HttpHeaders().set('Authorization', `Bearer ${token}`) : undefined;
     }
     return this.http.get<User[]>(this.baseUrl, { headers });
+  }
+
+  getUserById(id: string): Observable<User> {
+    let headers;
+    if (typeof window !== 'undefined') {
+      const user = localStorage.getItem('user');
+      const token = user ? JSON.parse(user).token : null;
+      headers = token ? new HttpHeaders().set('Authorization', `Bearer ${token}`) : undefined;
+    }
+    return this.http.get<User>(`${this.baseUrl}/${id}`, { headers });
   }
 
   login(credentials: { email: string; password: string }): Observable<User> {

@@ -42,3 +42,8 @@
 .instruction-row mat-form-field {
     flex: 1;
 }
+
+* {
+    direction: rtl;
+    text-align: right;
+}

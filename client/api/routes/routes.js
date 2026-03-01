@@ -48,12 +48,14 @@ recipeRouter.delete('/:id', auth, deleteRecipe);
 
 
 // ---------------user----------------
-import { getAllUsers, login, register, deleteUser, updateDetails } from "../controllers/user.controller.js";
+import { getAllUsers, login, register, deleteUser, updateDetails, getUserById } from "../controllers/user.controller.js";
 
 export const userRouter = Router();
 
 // GET http://localhost:3000/users
 userRouter.get('/', auth, authAdmin, getAllUsers);
+
+userRouter.get('/:id', auth, authAdmin, getUserById);
 // POST http://localhost:3000/users/login
 userRouter.post('/login', login);
 // POST http://localhost:3000/users/register

@@ -2,8 +2,8 @@
     <mat-card class="recipe-card">
         <mat-card-header>
             <mat-card-title>{{ recipe.name }}</mat-card-title>
-            <mat-card-subtitle>{{ recipe.category.name }} • {{ recipe.time | duration }}</mat-card-subtitle>
-            
+            <mat-card-subtitle>{{ recipe.category.name }}</mat-card-subtitle>
+            <mat-card-subtitle>{{ recipe.time | duration }}</mat-card-subtitle>
         </mat-card-header>
 
         <mat-card-content>
@@ -21,23 +21,28 @@
                 <div class="header-cell">תיאור</div>
             </div>
 
-            <div *ngFor="let layer of recipe.layers" class="layer-row">
-                <div class="layer-cell">{{ layer.ingredients }}</div>
-                <div class="layer-cell">{{ layer.description }}</div>
+            <div *ngFor="let layer of recipe.layers; let last = last" [class.with-divider]="!last">
+                <div class="layer-row">
+                    <div class="layer-cell">{{ layer.ingredients }}</div>
+                    <div class="layer-cell">{{ layer.description }}</div>
+                </div>
+                <div *ngIf="!last" class="small-divider-container">
+                    <mat-divider class="small-divider"></mat-divider>
+                </div>
             </div>
 
             <mat-divider class="divider"></mat-divider>
 
             <h3>הוראות הכנה:</h3>
             <div *ngFor="let instruction of recipe.instructions; let i = index">
-                <p>{{ i + 1 }}. {{ instruction }}</p>
+                <p class="instruction">{{ i + 1 }}. {{ instruction }}</p>
             </div>
         </mat-card-content>
 
         <mat-card-actions *ngIf="recipeUserId === recipe.user._id" align="end">
             <div *ngIf="recipeUserId === recipe.user._id" class="recipe-actions">
-                <button mat-flat-button color="primary" class="full-width" (click)="update()">עדכון</button>
-                <button mat-flat-button color="warn" class="full-width" (click)="delete()">מחיקה</button>
+                <button mat-flat-button color="primary" class="full-width" (click)="update()">עריכה</button>
+                <button mat-flat-button color="warn" class="full-width" (click)="confirmAction()">מחיקה</button>
             </div>
         </mat-card-actions>
     </mat-card>

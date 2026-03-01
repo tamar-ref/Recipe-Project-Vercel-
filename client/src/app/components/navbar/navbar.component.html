@@ -10,7 +10,7 @@
     <a *ngIf="currentUser === 'אורח'" mat-list-item routerLink="/login" routerLinkActive="active-link">התחברות</a>
     <a *ngIf="currentUser !== 'אורח'" mat-list-item routerLink="/add-recipe" routerLinkActive="active-link">הוסף מתכון</a>
     <a *ngIf="currentUser !== 'אורח'" mat-list-item routerLink="/my-recipes" routerLinkActive="active-link">המתכונים שלי</a>
-    <a *ngIf="currentUser !== 'אורח'" mat-list-item routerLink="/update-details" routerLinkActive="active-link">עדכון פרטים אישיים</a>
+    <a *ngIf="currentUser !== 'אורח'" mat-list-item routerLink="/update-details" routerLinkActive="active-link">עריכת פרטים אישיים</a>
     <a *ngIf="isAdmin" mat-list-item routerLink="/users" routerLinkActive="active-link">משתמשים</a>
     <span class="spacer"></span>
     <a *ngIf="currentUser !== 'אורח'" mat-list-item class="logout-btn" (click)="logout()">התנתק</a>

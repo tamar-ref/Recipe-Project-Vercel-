@@ -38,11 +38,12 @@
     <div *ngFor="let layer of layers; let i = index" class="layer">
         <mat-form-field appearance="fill" class="half-width">
             <mat-label>מרכיבים</mat-label>
-            <input matInput [value]="layer.ingredients" (input)="updateLayer(i, 'ingredients', $event)">
+            <textarea matInput cdkTextareaAutosize [value]="layer.ingredients"
+                (input)="updateLayer(i, 'ingredients', $event)"></textarea>
         </mat-form-field>
         <mat-form-field appearance="fill" class="half-width">
             <mat-label>תיאור</mat-label>
-            <input matInput [value]="layer.description" (input)="updateLayer(i, 'description', $event)">
+            <input matInput [value]="layer.description" (input)="updateLayer(i, 'description', $event)" />
         </mat-form-field>
         <button mat-icon-button color="warn" type="button" (click)="removeLayer(i)" *ngIf="layers.length > 1">
             <mat-icon>remove</mat-icon>

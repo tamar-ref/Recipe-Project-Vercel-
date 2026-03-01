@@ -1,39 +1,44 @@
-.cards-container {
-    direction: rtl;
+* {
+  direction: rtl;
+  text-align: right;
 }
 
 .cards-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 24px;
-    padding: 24px;
-    justify-items: center;
+  direction: rtl;
+}
+
+.cards-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 24px;
+  padding: 24px;
+  justify-items: center;
 }
 
 .recipe-card {
-    width: 100%;
-    max-width: 250px;
-    border: 1px solid #ddd;
-    border-radius: 12px;
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-    cursor: pointer;
+  width: 100%;
+  max-width: 250px;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
 }
 
 .recipe-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
+  transform: translateY(-5px);
+  box-shadow: 4px 4px 12px rgba(0, 0, 0, 0.2);
 }
 
 .recipe-title {
-    color: #3f51b5;
-    font-size: 20px;
-    font-weight: bold;
-    margin: 12px;
+  color: #3f51b5;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 12px;
 }
 
 mat-card-content strong {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .no-results {

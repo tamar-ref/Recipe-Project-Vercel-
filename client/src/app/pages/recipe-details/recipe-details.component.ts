@@ -8,10 +8,13 @@ import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../shared/services/user.service';
 import { AuthService } from '../../shared/services/auth.service';
 import { Router } from '@angular/router';
+import { ConfirmDialogComponent } from '../../components/confirm-dialog/confirm-dialog.component';
 
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatDialog } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-recipe-details',
   standalone: true,
@@ -24,7 +27,7 @@ export class RecipeDetailsComponent implements OnInit {
   recipe: Recipe | null = null;
   error: string = '';
 
-  constructor(private recipeService: RecipeService, private route: ActivatedRoute, private userService: UserService, private authService: AuthService, private router: Router) { }
+  constructor(private recipeService: RecipeService, private route: ActivatedRoute, private userService: UserService, private authService: AuthService, private router: Router, private dialog: MatDialog) { }
 
   ngOnInit(): void {
     const userStr = localStorage.getItem('user');
@@ -59,6 +62,19 @@ export class RecipeDetailsComponent implements OnInit {
         }
       });
     }
+  }
+
+  confirmAction() {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      data: { message: 'האם למחוק מתכון?' },
+      disableClose: false // מאפשר סגירה בלחיצה מחוץ לחלון
+    });
+
+    dialogRef.afterClosed().subscribe((result: any) => {
+      if (result) {
+        this.delete();
+      } 
+    });
   }
 
 }

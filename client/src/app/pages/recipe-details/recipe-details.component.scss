@@ -16,6 +16,17 @@
     margin: 20px 0;
 }
 
+.small-divider {
+    width: 7%;
+    margin: 8px 0;
+}
+
+.small-divider-container {
+    display: flex;
+    justify-content: right;
+    margin: 8px 0;
+}
+
 mat-card-actions {
     display: flex !important;
     flex-direction: column !important;
@@ -49,18 +60,13 @@ mat-card-title {
 }
 
 .layer-header {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
     font-weight: bold;
     margin-bottom: 10px;
-    text-align: right;
 }
 
 .layer-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
     margin-bottom: 10px;
-    text-align: right;
+    position: relative;
 }
 
 .header-cell,
@@ -68,6 +74,27 @@ mat-card-title {
     padding: 5px 10px;
 }
 
-strong, h3{
+strong,
+h3 {
     color: #3f51b5;
+}
+
+.layer-cell {
+    white-space: pre-line;
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.layer-header,
+.layer-row {
+    align-items: start;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    text-align: right;
+}
+
+.instruction {
+    white-space: pre-line;
+    word-break: break-word;
+    overflow-wrap: break-word;
 }

@@ -4,7 +4,7 @@
         <ng-container matColumnDef="edit">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let user">
-                <button mat-icon-button>
+                <button mat-icon-button (click)="editUser(user._id)">
                     <mat-icon>edit</mat-icon>
                 </button>
             </mat-cell>
@@ -38,7 +38,7 @@
         <ng-container matColumnDef="delete">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let user">
-                <button *ngIf="user.role !== 'admin'" mat-icon-button (click)="deleteUser(user._id)">
+                <button *ngIf="user.role !== 'admin'" mat-icon-button (click)="confirmAction(user._id)">
                     <mat-icon>delete</mat-icon>
                 </button>
             </mat-cell>

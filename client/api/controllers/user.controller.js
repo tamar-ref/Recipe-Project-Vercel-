@@ -13,6 +13,19 @@ export const getAllUsers = async (req, res, next) => {
     }
 };
 
+export const getUserById = async (req, res, next) => {
+    try {
+        const user = await User.findById(req.params.id);
+        if (!user) {
+            return next({ status: 404, message: 'User not found' });
+        }
+        res.json(user);
+    }
+    catch (error) {
+        next({ message: error.message });
+    }
+};
+
 export const login = async (req, res, next) => {
     try {
         const v = JoiUserSchemas.login.validate(req.body);
@@ -46,7 +59,7 @@ export const register = async (req, res, next) => {
         if (v.error) {
             return next({ status: 400, message: v.error.message });
         }
-        const { username, password, email, phone,  role: incomingRole } = req.body;
+        const { username, password, email, phone, role: incomingRole } = req.body;
 
         // בדיקה אם כבר קיים משתמש עם המייל הזה
         const existingUser = await User.findOne({ email });

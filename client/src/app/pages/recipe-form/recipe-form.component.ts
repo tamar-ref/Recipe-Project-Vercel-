@@ -146,7 +146,7 @@ export class RecipeFormComponent implements OnInit {
     if (this.recipeToEdit) {
       this.recipeService.updateRecipe(this.recipeToEdit._id, formData).subscribe({
         next: (res) => {
-          this.router.navigate(['/']);
+          this.router.navigate([`/recipe/${this.recipeToEdit?._id}`]);
         },
         error: (err) => {
           console.error('Error adding recipe:', err);

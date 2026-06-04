@@ -2,37 +2,43 @@
 
 <ng-container *ngIf="recipe">
     <mat-card class="recipe-card">
-        <mat-card-header>
-            <mat-card-title>{{ recipe.name }}</mat-card-title>
-            <mat-card-subtitle>{{ recipe.category.name }}</mat-card-subtitle>
-            <mat-card-subtitle>⏱ {{ recipe.time | duration }}</mat-card-subtitle>
-        </mat-card-header>
+        <mat-card-title>{{ recipe.name }}</mat-card-title>
+        <mat-card-subtitle class="meta-label">{{ recipe.category.name }}</mat-card-subtitle>
+        <mat-card-subtitle class="meta-label">{{ recipe.type }}</mat-card-subtitle>
+        <p class="description">{{ recipe.description }}</p>
 
         <mat-card-content>
-            <p>{{ recipe.description }}</p>
+            <div class="info-block">
+                <div class="meta-row">
+                    <span><strong>הועלה על ידי:</strong> {{ recipe.user.username }}</span>
+                    <span><strong>שינוי אחרון:</strong> {{ recipe.date | date:'dd/MM/yyyy HH:mm' }}</span>
+                </div>
+                <div class="meta-row meta-small">
+                    <span><strong>דרגת קושי:</strong> <span *appRepeat="recipe.difficulty">*</span></span>
+                    <span><strong>⏱</strong>{{ recipe.time | duration }}</span>
+                </div>
 
-            <p><strong>דרגת קושי: </strong> <span *appRepeat="recipe.difficulty">*</span></p>
-            <p><strong>תאריך: </strong> {{ recipe.date | date:'dd/MM/yyyy HH:mm' }}</p>
+                <div *ngIf="recipe.methods && recipe.methods.length > 0" class="methods-section">
+                    <div *ngFor="let method of recipe.methods" class="method-item">
+                        <span class="method-checkmark">✓</span>
+                        <span class="method-text">{{ method }}</span>
+                    </div>
+                </div>
 
-            <mat-divider class="divider"></mat-divider>
+            </div>
 
             <h3>מרכיבים</h3>
 
-            <div *ngFor="let layer of recipe.layers; let last = last" [class.with-divider]="!last">
-                <div class="layer-row">
-                    <div class="layer-cell">{{ layer.ingredients }}</div>
-                    <div class="layer-cell">{{ layer.description }}</div>
-                </div>
-                <div *ngIf="!last" class="small-divider-container">
-                    <mat-divider class="small-divider"></mat-divider>
+            <div *ngFor="let layer of recipe.layers; let last = last">
+                <div class="layer-row" [ngClass]="{ 'single-column': !layer.description }">
+                    <div class="layer-cell ingredients-cell">{{ layer.ingredients }}</div>
+                    <div *ngIf="layer.description" class="layer-cell description-cell">{{ layer.description }}</div>
                 </div>
             </div>
 
-            <mat-divider class="divider"></mat-divider>
-
             <h3>הוראות הכנה</h3>
-            <div *ngFor="let instruction of recipe.instructions; let i = index">
-                <b>{{ i + 1 }}.</b>
+            <div *ngFor="let instruction of recipe.instructions; let i = index" class="instruction-row">
+                <span class="instruction-number">{{ i + 1 }}</span>
                 <p class="instruction">{{ instruction }}</p>
             </div>
         </mat-card-content>

@@ -15,9 +15,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use(cors());
 
-app.use('/api/categories', categoryRouter);
-app.use('/api/recipes', recipeRouter);
-app.use('/api/users', userRouter);
+app.use('/api/category', categoryRouter);
+app.use('/api/recipe', recipeRouter);
+app.use('/api/user', userRouter);
 app.get('/api', (req, res) => {
   res.send('Hello World!');
 });

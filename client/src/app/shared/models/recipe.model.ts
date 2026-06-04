@@ -9,6 +9,8 @@ export interface Recipe {
         _id: { type: Category, ref: 'categories', required: true },
         name: String,
     },
+    type: string;
+    methods: string[];
     time: number;
     difficulty: number;
     date: Date;

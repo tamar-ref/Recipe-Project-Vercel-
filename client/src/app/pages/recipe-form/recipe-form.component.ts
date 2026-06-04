@@ -31,6 +31,10 @@ export class RecipeFormComponent implements OnInit {
   description: string = '';
   selectedCategory: string = '';
   newCategory: string = '';
+  type: string = '';
+  typeOptions: string[] = ['בשרי', 'חלבי', 'פרווה'];
+  methods: string[] = [];
+  methodOptions: string[] = ['בישול', 'אפיה', 'טיגון', 'הקצפה'];
   time: number | null = null;
   difficulty: number | null = null;
   layers: { ingredients: string; description: string }[] = [
@@ -58,6 +62,8 @@ export class RecipeFormComponent implements OnInit {
           this.name = this.recipeToEdit.name;
           this.description = this.recipeToEdit.description;
           this.selectedCategory = String(this.recipeToEdit.category.name);
+          this.type = this.recipeToEdit.type || '';
+          this.methods = Array.isArray(this.recipeToEdit.methods) ? [...this.recipeToEdit.methods] : [];
           this.time = this.recipeToEdit.time;
           this.difficulty = this.recipeToEdit.difficulty;
           this.layers = [...this.recipeToEdit.layers];
@@ -130,6 +136,18 @@ export class RecipeFormComponent implements OnInit {
     return index;
   }
 
+  toggleMethod(option: string): void {
+    const index = this.methods.indexOf(option);
+    if (index === -1) {
+      this.methods.push(option);
+    } else {
+      this.methods.splice(index, 1);
+    }
+  }
+
+  isMethodSelected(option: string): boolean {
+    return this.methods.includes(option);
+  }
 
 
   addRecipe(): void {
@@ -141,7 +159,9 @@ export class RecipeFormComponent implements OnInit {
     const formData = {
       name: this.name,
       description: this.description,
-      category: this.selectedCategory === 'other' ? this.newCategory.trim() : this.selectedCategory,
+      category: this.selectedCategory,
+      type: this.type,
+      methods: this.methods,
       time: this.time || 0,
       difficulty: this.difficulty || 0,
       date: new Date(),

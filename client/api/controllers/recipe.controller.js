@@ -1,5 +1,6 @@
 import Recipe from '../models/recipe.model.js';
 import Category from '../models/category.model.js';
+import User from '../models/user.model.js';
 import mongoose from 'mongoose';
 
 // קבלת כל המתכונים עם חיפוש, עמודים, וסינון לפי משתמש
@@ -72,30 +73,22 @@ export const getRecipesByTime = async (req, res, next) => {
 export const addRecipe = async (req, res, next) => {
     try {
         const categoryName = req.body.category;
-        let existingCategory = await Category.findOne({ description: categoryName });
-
-        if (!existingCategory) {
-            existingCategory = new Category({ description: categoryName, num: 1, recipes: [] });
-            await existingCategory.save();
-        }
-        else {
-            existingCategory.num += 1;
-            await existingCategory.save();
-        }
+        let category = await Category.findOne({ name: categoryName });
+        const user = await User.findById(req.myUser._id);
         const recipeData = {
             ...req.body,
-            user: { _id: req.myUser._id },
-            category: { _id: existingCategory._id, name: existingCategory.description }
+            user: { _id: req.myUser._id, username: user.username },
+            category: { _id: category._id, name: category.name }
         };
         const recipe = new Recipe(recipeData);
         await recipe.save();
 
-        existingCategory.recipes.push({
+        category.recipes.push({
             _id: recipe._id,
-            name: recipe.name
+            name: recipe.name,        
         });
-
-        await existingCategory.save();
+        category.num += 1;
+        await category.save();
 
         res.status(201).json(recipe);
     }
@@ -120,37 +113,28 @@ export const updateRecipe = async (req, res, next) => {
         const oldName = recipe.name;
         const oldCategoryId = recipe.category?._id;
 
-        // 👇 הכנה לקטגוריה חדשה (שם כטקסט)
+        // הכנה לקטגוריה חדשה (שם כטקסט)
         const categoryName = req.body.category.trim();
-        let existingCategory = await Category.findOne({ description: categoryName });
+        let category = await Category.findOne({ name: categoryName });
 
-        if (!existingCategory) {
-            existingCategory = new Category({ description: categoryName, num: 1, recipes: [] });
-            await existingCategory.save();
-        }
-        else {
-            existingCategory.num += 1;
-            await existingCategory.save();
-        }
-
-        // 👇 המרת המחרוזת לאובייקט קטגוריה
+        // המרת המחרוזת לאובייקט קטגוריה
         req.body.category = {
-            _id: existingCategory._id,
-            name: existingCategory.description
+            _id: category._id,
+            name: category.name
         };
 
-        // 👇 עדכון בפועל
+        // עדכון בפועל
         Object.assign(recipe, req.body);
         await recipe.save();
 
-        // 👇 עדכון שם המתכון ברשימת הקטגוריה
+        // עדכון שם המתכון ברשימת הקטגוריה
         await Category.updateOne(
-            { _id: existingCategory._id, 'recipes._id': recipe._id },
+            { _id: category._id, 'recipes._id': recipe._id },
             { $set: { 'recipes.$.name': recipe.name } }
         );
 
-        // 👇 אם זו קטגוריה חדשה, להסיר מהישנה
-        if (oldCategoryId && oldCategoryId.toString() !== existingCategory._id.toString()) {
+        // אם זו קטגוריה חדשה, להסיר מהישנה
+        if (oldCategoryId && oldCategoryId.toString() !== category._id.toString()) {
             const oldCategory = await Category.findById(oldCategoryId);
             if (oldCategory) {
                 oldCategory.num -= 1;
@@ -192,9 +176,6 @@ export const deleteRecipe = async (req, res, next) => {
                 },
                 { new: true }
             );
-            if (updatedCategory && updatedCategory.num <= 0) {
-                await Category.findByIdAndDelete(updatedCategory._id);
-            }
         }
         await recipe.deleteOne();
         res.status(204).end();

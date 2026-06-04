@@ -33,8 +33,6 @@ export class RecipeDetailsComponent implements OnInit {
 
   ngOnInit(): void {
     this.isDataLoading = true;
-    const userStr = localStorage.getItem('user');
-    const token = userStr ? JSON.parse(userStr).token : null;
     this.recipeUserId = this.authService.getUserIdFromToken();
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {

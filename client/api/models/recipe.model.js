@@ -1,15 +1,50 @@
+import e from "cors";
 import { model, Schema } from "mongoose";
+import { type } from "os";
 
 const recipeSchema = new Schema({
-    name: { type: String, required: true },
-    description: { type: String, },
+    name: {
+        type: String,
+        required: true
+    },
+    description: {
+        type: String,
+    },
     category: {
-        _id: { type: Schema.Types.ObjectId, ref: 'categories', required: true },
+        _id: {
+            type: Schema.Types.ObjectId,
+            ref: 'categories',
+            required: true
+        },
         name: String,
     },
-    time: { type: Number, required: true, min: 1 },
-    difficulty: { type: Number, enum: [1, 2, 3, 4, 5], required: true },
-    date: { type: Date, default: Date.now },
+    type: {
+        type: String,
+        enum: ['בשרי', 'חלבי', 'פרווה'],
+        required: true
+    },
+    methods: {
+        type: [String],
+        enum: ['בישול', 'אפיה', 'טיגון', 'הקצפה'],
+        validate: {
+            validator: arr => new Set(arr).size === arr.length,
+            message: 'methods must contain unique values'
+        }
+    },
+    time: {
+        type: Number,
+        required: true,
+        min: 1
+    },
+    difficulty: {
+        type: Number,
+        enum: [1, 2, 3, 4, 5],
+        required: true
+    },
+    date: {
+        type: Date,
+        default: Date.now
+    },
     layers: {
         type: [{
             ingredients: { type: String, required: true },
@@ -34,10 +69,20 @@ const recipeSchema = new Schema({
             message: 'יש להזין לפחות הוראת הכנה אחת'
         }
     },
-    image: { type: String },
-    isPrivate: { type: Boolean, default: false },
+    image: {
+        type: String
+    },
+    isPrivate: {
+        type: Boolean,
+        default: false
+    },
     user: {
-        _id: { type: Schema.Types.ObjectId, ref: 'users', required: true },
+        _id: {
+            type: Schema.Types.ObjectId,
+            ref: 'users',
+            required: true
+        },
+        username: String,
     },
 });
 

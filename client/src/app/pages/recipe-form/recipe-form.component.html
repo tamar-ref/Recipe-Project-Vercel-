@@ -16,15 +16,18 @@
     <mat-form-field appearance="fill" class="full-width">
         <mat-label>קטגוריה</mat-label>
         <mat-select [(ngModel)]="selectedCategory" [ngModelOptions]="{ standalone: true }">
-            <mat-option *ngFor="let cat of categories" [value]="cat.description">{{ cat.description }}</mat-option>
-            <mat-option value="other">אחר</mat-option>
+            <mat-option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</mat-option>
         </mat-select>
     </mat-form-field>
-    <div *ngIf="selectedCategory === 'other'">
-        <mat-form-field appearance="fill" class="full-width">
-            <mat-label>קטגוריה חדשה</mat-label>
-            <input matInput type="text" [(ngModel)]="newCategory" [ngModelOptions]="{ standalone: true }">
-        </mat-form-field>
+
+    <mat-radio-group [(ngModel)]="type" [ngModelOptions]="{ standalone: true }" class="type-group" color="primary">
+        <mat-radio-button *ngFor="let option of typeOptions" [value]="option">{{ option }}</mat-radio-button>
+    </mat-radio-group>
+
+    <div class="methods-group">
+        <button mat-button type="button" class="method-pill" *ngFor="let option of methodOptions" [class.selected]="isMethodSelected(option)" (click)="toggleMethod(option)">
+            <span>{{ option }}</span>
+        </button>
     </div>
 
     <mat-form-field appearance="fill" class="full-width">

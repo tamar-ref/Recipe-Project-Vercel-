@@ -45,7 +45,7 @@ export class AllRecipesComponent implements OnInit {
         this.filterRecipes();
         this.isDataLoading = false;
       },
-      error: () => {
+      error: (e) => {
         this.error = 'שגיאה בטעינת מתכונים';
         this.isDataLoading = false;
       }

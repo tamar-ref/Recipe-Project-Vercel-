@@ -25,7 +25,8 @@
     </mat-radio-group>
 
     <div class="methods-group">
-        <button mat-button type="button" class="method-pill" *ngFor="let option of methodOptions" [class.selected]="isMethodSelected(option)" (click)="toggleMethod(option)">
+        <button mat-button type="button" class="method-pill" *ngFor="let option of methodOptions"
+            [class.selected]="isMethodSelected(option)" (click)="toggleMethod(option)">
             <span>{{ option }}</span>
         </button>
     </div>
@@ -93,10 +94,13 @@
         <mat-radio-button [value]="true">כן</mat-radio-button>
     </mat-radio-group>
 
-    <div class="form-actions">
-        <button mat-raised-button color="primary" class="full-width" type="button" (click)="addRecipe()">שמירה</button>
-        <button mat-raised-button class="full-width" type="reset" *ngIf="!isEditMode">איפוס</button>
-    </div>
+    <!-- Action Buttons -->
+    <mat-card-actions>
+        <div class="recipe-actions">
+            <button mat-raised-button color="primary" class="action-button" (click)="addRecipe()">שמירה</button>
+            <button mat-raised-button color="warn" class="action-button" type="button" *ngIf="!isEditMode" (click)="resetForm()">איפוס</button>
+        </div>
+    </mat-card-actions>
 
 
 </form>

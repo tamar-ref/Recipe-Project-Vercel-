@@ -4,5 +4,8 @@ export interface Category {
     _id: string;
     name: string;
     num: number;
-    recipes: Recipe[];
+    recipes: {
+        _id: Recipe,
+        name: string;
+    }[];
 }

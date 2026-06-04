@@ -15,11 +15,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-recipe-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatRadioModule, MatIconModule, LoaderComponent],
+  imports: [CommonModule, FormsModule, MatFormFieldModule, MatInputModule, MatSelectModule, MatButtonModule, MatRadioModule, MatIconModule, LoaderComponent, MatCardModule],
   templateUrl: './recipe-form.component.html',
   styleUrl: './recipe-form.component.scss'
 })
@@ -197,6 +198,23 @@ export class RecipeFormComponent implements OnInit {
       });
     }
 
+  }
+
+  resetForm(): void {
+    this.name = '';
+    this.description = '';
+    this.selectedCategory = '';
+    this.newCategory = '';
+    this.type = '';
+    this.methods = [];
+    this.time = null;
+    this.difficulty = null;
+    this.layers = [{ ingredients: '', description: '' }];
+    this.image = null;
+    this.src = '';
+    this.imagePreview = null;
+    this.instructions = [''];
+    this.isPrivate = false;
   }
 
 }

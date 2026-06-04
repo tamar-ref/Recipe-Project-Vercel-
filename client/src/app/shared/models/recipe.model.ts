@@ -18,5 +18,8 @@ export interface Recipe {
     instructions: string[];
     image: string;
     isPrivate: boolean;
-    user: User;
+    user: {
+        _id: User,
+        username: string;
+    };
 }

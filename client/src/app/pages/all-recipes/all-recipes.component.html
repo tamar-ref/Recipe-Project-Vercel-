@@ -1,17 +1,20 @@
 <div class="filters">
     <mat-form-field appearance="fill" class="full-width">
+        <mat-label>חיפוש</mat-label>
+        <input matInput type="text" [(ngModel)]="searchTerm" (input)="onSearchChange()" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
+        <mat-label>קטגוריה</mat-label>
+        <mat-select [(ngModel)]="selectedCategory" (selectionChange)="filterRecipes()" [ngModelOptions]="{ standalone: true }">
+            <mat-option [value]="''">כל הקטגוריות</mat-option>
+            <mat-option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="full-width">
         <mat-label>זמן מקסימלי בדקות</mat-label>
         <input matInput type="number" [(ngModel)]="maxTimeInput" (input)="onMaxTimeChange()" />
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width">
-        <mat-label>חיפוש לפי קטגוריה</mat-label>
-        <input matInput type="text" [(ngModel)]="categorySearchTerm" (input)="filterRecipes()" />
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width">
-        <mat-label>חיפוש מתכונים</mat-label>
-        <input matInput type="text" [(ngModel)]="searchTerm" (input)="onSearchChange()" />
     </mat-form-field>
 </div>
 
@@ -19,12 +22,30 @@
 
 <div *ngIf="filteredRecipes.length > 0; else noResults" class="cards-container">
     <mat-card *ngFor="let res of filteredRecipes" class="recipe-card" [routerLink]="['/recipe', res._id]">
-        <!--<img mat-card-image [src]="res.image" alt="תמונה של {{res.name}}" />-->
-        <mat-card-title class="recipe-title">{{ res.name }}</mat-card-title>
-        <mat-card-content>
-            <p>⏱ {{ res.time | duration }}</p>
-            <p><strong>דרגת קושי: </strong><span *appRepeat="res.difficulty">*</span></p>
-            <p><strong>קטגוריה: </strong>{{ res.category.name }}</p>
+        <div class="card-image-container">
+            <img *ngIf="res.image" class="recipe-image" [src]="res.image" alt="תמונה של {{res.name}}" />
+            <div *ngIf="!res.image" class="recipe-image-placeholder">🍳</div>
+        </div>
+        <mat-card-content class="card-content">
+            <mat-card-title class="recipe-title">{{ res.name }}</mat-card-title>
+            <div class="recipe-details">
+                <div class="detail-row">
+                    <span class="detail-label">📂</span>
+                    <span class="detail-value">{{ res.category.name }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">🏷️</span>
+                    <span class="detail-value">{{ res.type }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">⏱️</span>
+                    <span class="detail-value">{{ res.time | duration }}</span>
+                </div>
+                <div class="detail-row">
+                    <span class="detail-label">👤</span>
+                    <span class="detail-value">{{ res.user.username }}</span>
+                </div>
+            </div>
         </mat-card-content>
     </mat-card>
 </div>

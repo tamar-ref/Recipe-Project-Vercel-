@@ -89,3 +89,35 @@
     direction: rtl;
     text-align: right;
 }
+
+mat-card-actions {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 12px;
+    padding: 24px 32px !important;
+    border-top: 1px solid rgba(102, 126, 234, 0.1) !important;
+    margin: 0 !important;
+    background: rgba(102, 126, 234, 0.02);
+}
+
+.recipe-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.action-button {
+    width: 100%;
+    font-weight: 600;
+    padding: 14px 20px !important;
+    border-radius: 10px !important;
+    font-size: 15px !important;
+    transition: all 0.2s ease !important;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !important;
+    }
+}

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { RepeatDirective } from '../../shared/directives/repeat.directive';
 import { CommonModule } from '@angular/common';
 import { RecipeService } from '../../shared/services/recipe.service';
 import { Recipe } from '../../shared/models/recipe.model';
@@ -12,11 +11,14 @@ import { LoaderComponent } from "../../components/loader/loader.component";
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { Category } from '../../shared/models/category.model';
+import { CategoryService } from '../../shared/services/category.service';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'app-my-recipes',
   standalone: true,
-  imports: [FormsModule, DurationPipe, RepeatDirective, CommonModule, RouterModule, MatCardModule, MatFormFieldModule, MatInputModule, LoaderComponent],
+  imports: [FormsModule, DurationPipe, CommonModule, RouterModule, MatCardModule, MatFormFieldModule, MatInputModule, LoaderComponent, MatSelectModule],
   templateUrl: '../../pages/all-recipes/all-recipes.component.html',
   styleUrl: '../../pages/all-recipes/all-recipes.component.scss'
 })
@@ -26,14 +28,26 @@ export class MyRecipesComponent implements OnInit {
   error: string = '';
   filteredRecipes: Recipe[] = [];
   searchTerm: string = '';
-  categorySearchTerm: string = '';
-  maxTimeInput: number | null = null;
+  categories: Category[] = [];
+  selectedCategory: string | null = null; maxTimeInput: number | null = null;
   isDataLoading: boolean = false;
 
-  constructor(private recipeService: RecipeService, private authService: AuthService) { }
+  constructor(private recipeService: RecipeService, private authService: AuthService, private categoryService: CategoryService) { }
 
   ngOnInit(): void {
     this.loadRecipes();
+    this.loadCategories();
+  }
+
+  loadCategories() {
+    this.categoryService.getAllCategoriesAndRecipes().subscribe({
+      next: (data) => {
+        this.categories = data || [];
+      },
+      error: (e) => {
+        this.error = 'שגיאה בטעינת קטגוריות';
+      }
+    });
   }
 
   loadRecipes() {
@@ -61,7 +75,7 @@ export class MyRecipesComponent implements OnInit {
       this.error = 'אין מתכונים';
       return;
     }
-    const categoryTerm = this.categorySearchTerm.toLowerCase().trim();
+    const categoryTerm = (this.selectedCategory || '').toLowerCase().trim();
     const nameTerm = this.searchTerm.toLowerCase().trim();
 
     this.filteredRecipes = this.recipes.filter(recipe => {

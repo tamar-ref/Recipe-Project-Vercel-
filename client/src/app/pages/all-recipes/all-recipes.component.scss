@@ -127,14 +127,23 @@
 }
 
 .filters {
+  width: 97%;
   display: flex;
-  gap: 16px;
-  margin-bottom: 32px;
+  gap: 20px;
   flex-wrap: wrap;
-  background: linear-gradient(135deg, rgba(102, 126, 234, 0.05) 0%, rgba(118, 75, 162, 0.05) 100%);
+  background: rgba(255, 255, 255, 0.95);
   padding: 24px;
-  border-radius: 12px;
-  border: 1px solid rgba(102, 126, 234, 0.1);
+  position: fixed;
+  top: 120px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 900;
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.recipes-page {
+  padding-top: 140px;
 }
 
 .full-width {
@@ -152,8 +161,4 @@
 
 ::ng-deep .filters .mdc-text-field--filled {
   background-color: white;
-}
-
-::ng-deep .filters .mdc-text-field {
-  border-radius: 8px;
 }

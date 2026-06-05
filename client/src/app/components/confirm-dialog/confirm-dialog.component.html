@@ -2,7 +2,7 @@
     <h3 mat-dialog-title>{{ message }}</h3>
 </mat-dialog-content>
 
-<mat-dialog-actions align="start">
-    <button mat-raised-button color="warn" (click)="onConfirm()">אישור</button>
-    <button mat-raised-button (click)="onCancel()">ביטול</button>
+<mat-dialog-actions class="dialog-actions">
+    <button mat-raised-button color="warn" (click)="onConfirm()" class="action-button">אישור</button>
+    <button mat-raised-button (click)="onCancel()" class="action-button">ביטול</button>
 </mat-dialog-actions>

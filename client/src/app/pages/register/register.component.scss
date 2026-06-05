@@ -18,3 +18,16 @@
 input.ng-invalid.ng-touched {
   border-color: red;
 }
+
+.action-button {
+  font-weight: 600;
+  padding: 14px 20px !important;
+  border-radius: 10px !important;
+  font-size: 15px !important;
+  transition: all 0.2s ease !important;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !important;
+  }
+}

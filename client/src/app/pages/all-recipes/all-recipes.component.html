@@ -6,7 +6,7 @@
 
     <mat-form-field appearance="fill" class="full-width">
         <mat-label>קטגוריה</mat-label>
-        <mat-select [(ngModel)]="selectedCategory" (selectionChange)="filterRecipes()" [ngModelOptions]="{ standalone: true }">
+        <mat-select [(ngModel)]="selectedCategory" (selectionChange)="filterRecipes()" [ngModelOptions]="{ standalone: true }" dir="rtl">
             <mat-option [value]="''">כל הקטגוריות</mat-option>
             <mat-option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</mat-option>
         </mat-select>
@@ -18,9 +18,10 @@
     </mat-form-field>
 </div>
 
-<app-loader *ngIf="isDataLoading"></app-loader>
+<div class="recipes-page">
+  <app-loader *ngIf="isDataLoading"></app-loader>
 
-<div *ngIf="filteredRecipes.length > 0; else noResults" class="cards-container">
+  <div *ngIf="filteredRecipes.length > 0; else noResults" class="cards-container">
     <mat-card *ngFor="let res of filteredRecipes" class="recipe-card" [routerLink]="['/recipe', res._id]">
         <div class="card-image-container">
             <img *ngIf="res.image" class="recipe-image" [src]="res.image" alt="תמונה של {{res.name}}" />

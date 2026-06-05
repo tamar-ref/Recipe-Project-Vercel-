@@ -1,8 +1,26 @@
+:host {
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    width: 100%;
+    background: white;
+}
+
+mat-toolbar {
+    position: relative;
+    z-index: 1001;
+}
+
 .navbar {
     background-color: #e8eaf6;
     padding: 8px 20px;
     direction: rtl;
     text-align: right;
+    position: relative;
+    z-index: 1000;
 }
 
 mat-nav-list {

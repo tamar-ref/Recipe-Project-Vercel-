@@ -29,7 +29,7 @@
 
         <mat-form-field appearance="fill" class="full-width">
             <mat-label>תפקיד</mat-label>
-            <mat-select [(ngModel)]="user.role" [ngModelOptions]="{ standalone: true }">
+            <mat-select [(ngModel)]="user.role" [ngModelOptions]="{ standalone: true }" dir="rtl">
                 <mat-option value="admin">admin</mat-option>
                 <mat-option value="user">user</mat-option>
             </mat-select>
@@ -37,8 +37,8 @@
 
     </div>
 
-    <mat-dialog-actions align="end">
-        <button mat-raised-button (click)="close()">ביטול</button>
-        <button mat-raised-button color="primary" (click)="save()">שמור</button>
+    <mat-dialog-actions class="dialog-actions">
+        <button mat-raised-button (click)="close()" class="action-button">ביטול</button>
+        <button mat-raised-button color="primary" (click)="save()" class="action-button">שמור</button>
     </mat-dialog-actions>
 </div>

@@ -54,6 +54,7 @@ export class RecipeDetailsComponent implements OnInit {
 
   update() {
     if (this.recipe && this.recipe._id) {
+      window.scrollTo({ top: 0, behavior: 'auto' })
       this.router.navigate(['/edit-recipe', this.recipe._id]);
     }
   }

@@ -19,7 +19,7 @@
             <mat-option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</mat-option>
         </mat-select>
     </mat-form-field>
-    
+
     <label class="section-label">תמונה</label>
     <div class="file-upload-container">
         <input type="file" accept="image/*" (change)="onImageSelected($event)" #fileInput class="hidden-input" />
@@ -28,13 +28,13 @@
             <span>בחר קובץ</span>
         </button>
         <p class="file-name-label">{{ fileName || 'לא נבחר קובץ' }}</p>
-    </div>
-    <div *ngIf="src" class="image-preview-container">
-        <img [src]="src" alt="תצוגת תמונה של המתכון" class="preview-image" />
-        <button *ngIf="src" mat-icon-button color="warn" type="button" (click)="removeImage(fileInput)"
-            class="delete-btn">
-            <mat-icon>delete</mat-icon>
-        </button>
+        <div *ngIf="src" class="image-preview-container">
+            <img [src]="src" alt="תצוגת תמונה של המתכון" class="preview-image" />
+            <button *ngIf="src" mat-icon-button color="warn" type="button" (click)="removeImage(fileInput)"
+                class="delete-btn">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
     </div>
 
     <mat-radio-group [(ngModel)]="type" [ngModelOptions]="{ standalone: true }" class="type-group" color="primary">
@@ -106,7 +106,7 @@
     <mat-card-actions>
         <div class="recipe-actions">
             <button mat-raised-button color="primary" class="action-button" (click)="addRecipe()">שמירה</button>
-            <button mat-raised-button color="warn" class="action-button" type="button" *ngIf="!isEditMode"
+            <button mat-raised-button color="warn" class="action-button cancel-button" type="button" *ngIf="!isEditMode"
                 (click)="resetForm()">איפוס</button>
         </div>
     </mat-card-actions>

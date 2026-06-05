@@ -21,11 +21,6 @@
   gap: 10px;
 }
 
-a {
-  cursor: pointer;
-  color: red;
-}
-
 .action-button {
   font-weight: 600;
   padding: 14px 20px !important;
@@ -37,4 +32,9 @@ a {
     transform: translateY(-2px);
     box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !important;
   }
+}
+
+::ng-deep .sign-button {
+    background-color: #e9e9e9 !important;
+    color: black !important;
 }

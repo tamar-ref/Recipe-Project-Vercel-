@@ -28,7 +28,6 @@ export class UpdateDetailsComponent {
   constructor(private userService: UserService, private authService: AuthService) { }
 
   ngOnInit(): void {
-    console.log('hello!!!');
     this.isDataLoading = true;
     this.userService.getAllUsers().subscribe({
       next: (users) => {

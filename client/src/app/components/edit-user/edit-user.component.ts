@@ -63,7 +63,7 @@ export class EditUserComponent implements OnInit {
       },
       error: (err) => {
         this.isDataLoading = false;
-        console.log(err.error || 'שגיאה בעדכון המשתמש');
+        alert(err.error || 'שגיאה בעדכון המשתמש');
       }
     });
   }

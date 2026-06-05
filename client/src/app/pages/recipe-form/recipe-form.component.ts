@@ -159,7 +159,6 @@ export class RecipeFormComponent implements OnInit {
 
   addRecipe(): void {
     this.isDataLoading = true;
-    console.log('hello!!!');
     const filteredInstructions = this.instructions.filter(text => text.trim() !== '');
     const filteredLayers = this.layers.filter(obj => {
       return obj.ingredients.trim() !== '' || obj.description.trim() !== '';

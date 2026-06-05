@@ -9,8 +9,8 @@ import { HttpHeaders } from '@angular/common/http';
     providedIn: 'root'
 })
 export class RecipeService {
-    private baseUrl = '/api/recipe';
-    //private baseUrl = 'http://localhost:3000/api/recipe';
+    //private baseUrl = '/api/recipe';
+    private baseUrl = 'http://localhost:3000/api/recipe';
 
     constructor(private http: HttpClient) { }
 

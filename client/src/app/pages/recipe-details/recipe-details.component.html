@@ -1,86 +1,89 @@
 <app-loader *ngIf="isDataLoading"></app-loader>
+<div class="bottom-spacer">
+    <ng-container *ngIf="recipe">
+        <mat-card class="recipe-card">
+            <!-- Recipe Image Section -->
+            <div class="recipe-image-banner">
+                <img *ngIf="recipe.image" class="recipe-image" [src]="recipe.image" alt="תמונה של {{recipe.name}}" />
+                <div *ngIf="!recipe.image" class="recipe-image-placeholder">🍳</div>
+            </div>
 
-<ng-container *ngIf="recipe">
-    <mat-card class="recipe-card">
-        <!-- Recipe Image Section -->
-        <div class="recipe-image-banner">
-            <img *ngIf="recipe.image" class="recipe-image" [src]="recipe.image" alt="תמונה של {{recipe.name}}" />
-            <div *ngIf="!recipe.image" class="recipe-image-placeholder">🍳</div>
-        </div>
-
-        <!-- Recipe Header -->
-        <div class="recipe-header">
-            <div>
-                <mat-card-title class="recipe-title">{{ recipe.name }}</mat-card-title>
-                <p class="description">{{ recipe.description }}</p>
-            </div>
-        </div>
-
-        <!-- Meta Information Bar -->
-        <div class="meta-bar">
-            <div class="meta-item">
-                <span class="meta-icon">📂</span>
-                <span class="meta-text">{{ recipe.category.name }}</span>
-            </div>
-            <div class="meta-item">
-                <span class="meta-icon">🏷️</span>
-                <span class="meta-text">{{ recipe.type }}</span>
-            </div>
-            <div class="meta-item">
-                <span class="meta-icon">⏱️</span>
-                <span class="meta-text">{{ recipe.time | duration }}</span>
-            </div>
-            <div class="meta-item">
-                <span class="meta-icon">📊</span>
-                <span class="meta-text"><span class="star-rating"><span *appRepeat="recipe.difficulty"
-                            class="star">★</span></span></span>
-            </div>
-            <div class="meta-item">
-                <span class="meta-icon">📅</span>
-                <span class="meta-text meta-date">{{ recipe.date | date:'dd/MM/yyyy HH:mm' }}</span>
-            </div>
-            <div class="meta-item">
-                <span class="meta-icon">👤</span>
-                <span class="meta-text">{{ recipe.user.username }}</span>
-            </div>
-        </div>
-
-        <mat-card-content class="recipe-content">
-            <!-- Methods Section -->
-            <div *ngIf="recipe.methods && recipe.methods.length > 0" class="methods-section">
-                <div *ngFor="let method of recipe.methods" class="method-item">
-                    <span class="method-checkmark">✓</span>
-                    <span class="method-text">{{ method }}</span>
+            <!-- Recipe Header -->
+            <div class="recipe-header">
+                <div>
+                    <mat-card-title class="recipe-title">{{ recipe.name }}</mat-card-title>
+                    <p class="description">{{ recipe.description }}</p>
                 </div>
             </div>
 
-            <!-- Ingredients Section -->
-            <h3>מרכיבים</h3>
-            <div class="ingredients-list">
-                <div *ngFor="let layer of recipe.layers; let last = last" class="layer-section">
-                    <div class="layer-row" [ngClass]="{ 'single-column': !layer.description }">
-                        <div class="layer-cell ingredients-cell">{{ layer.ingredients }}</div>
-                        <div *ngIf="layer.description" class="layer-cell description-cell">{{ layer.description }}</div>
+            <!-- Meta Information Bar -->
+            <div class="meta-bar">
+                <div class="meta-item">
+                    <span class="meta-icon">📂</span>
+                    <span class="meta-text">{{ recipe.category.name }}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">🏷️</span>
+                    <span class="meta-text">{{ recipe.type }}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">⏱️</span>
+                    <span class="meta-text">{{ recipe.time | duration }}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">📊</span>
+                    <span class="meta-text"><span class="star-rating"><span *appRepeat="recipe.difficulty"
+                                class="star">★</span></span></span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">📅</span>
+                    <span class="meta-text meta-date">{{ recipe.date | date:'dd/MM/yyyy HH:mm' }}</span>
+                </div>
+                <div class="meta-item">
+                    <span class="meta-icon">👤</span>
+                    <span class="meta-text">{{ recipe.user.username }}</span>
+                </div>
+            </div>
+
+            <mat-card-content class="recipe-content">
+                <!-- Methods Section -->
+                <div *ngIf="recipe.methods && recipe.methods.length > 0" class="methods-section">
+                    <div *ngFor="let method of recipe.methods" class="method-item">
+                        <span class="method-checkmark">✓</span>
+                        <span class="method-text">{{ method }}</span>
                     </div>
                 </div>
-            </div>
 
-            <!-- Instructions Section -->
-            <h3>הוראות הכנה</h3>
-            <div class="instructions-list">
-                <div *ngFor="let instruction of recipe.instructions; let i = index" class="instruction-row">
-                    <span class="instruction-number">{{ i + 1 }}</span>
-                    <p class="instruction">{{ instruction }}</p>
+                <!-- Ingredients Section -->
+                <h3>מרכיבים</h3>
+                <div class="ingredients-list">
+                    <div *ngFor="let layer of recipe.layers; let last = last" class="layer-section">
+                        <div class="layer-row" [ngClass]="{ 'single-column': !layer.description }">
+                            <div class="layer-cell ingredients-cell">{{ layer.ingredients }}</div>
+                            <div *ngIf="layer.description" class="layer-cell description-cell">{{ layer.description }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </mat-card-content>
 
-        <!-- Action Buttons -->
-        <mat-card-actions *ngIf="recipeUserId === recipe.user._id.toString()">
-            <div class="recipe-actions">
-                <button mat-raised-button color="primary" class="action-button" (click)="update()">עריכה</button>
-                <button mat-raised-button color="warn" class="action-button" (click)="confirmAction()">מחיקה</button>
-            </div>
-        </mat-card-actions>
-    </mat-card>
-</ng-container>
+                <!-- Instructions Section -->
+                <h3>הוראות הכנה</h3>
+                <div class="instructions-list">
+                    <div *ngFor="let instruction of recipe.instructions; let i = index" class="instruction-row">
+                        <span class="instruction-number">{{ i + 1 }}</span>
+                        <p class="instruction">{{ instruction }}</p>
+                    </div>
+                </div>
+            </mat-card-content>
+
+            <!-- Action Buttons -->
+            <mat-card-actions *ngIf="recipeUserId === recipe.user._id.toString()">
+                <div class="recipe-actions">
+                    <button mat-raised-button color="primary" class="action-button" (click)="update()">עריכה</button>
+                    <button mat-raised-button color="warn" class="action-button"
+                        (click)="confirmAction()">מחיקה</button>
+                </div>
+            </mat-card-actions>
+        </mat-card>
+    </ng-container>
+</div>

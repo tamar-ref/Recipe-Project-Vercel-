@@ -17,6 +17,7 @@ export interface Recipe {
     layers: { ingredients: string; description: string }[];
     instructions: string[];
     image: string;
+    imagePublicId?: string;
     isPrivate: boolean;
     user: {
         _id: User,

@@ -3,15 +3,17 @@ import { connectDB } from './config/db.js';
 import express from 'express';
 import morgan from 'morgan';
 import cors from 'cors';
-import { categoryRouter, recipeRouter, userRouter } from './routes/routes.js';
+import { categoryRouter } from './routes/category.route.js';
+import { recipeRouter } from './routes/recipe.route.js';
+import { userRouter } from './routes/user.route.js';
 import { errorHandler, notFound } from './middlewares/errorHandling.middleware.js';
 
 config();
 connectDB();
 const app = express();
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(morgan('dev'));
 app.use(cors());
 

@@ -19,6 +19,23 @@
             <mat-option *ngFor="let cat of categories" [value]="cat.name">{{ cat.name }}</mat-option>
         </mat-select>
     </mat-form-field>
+    
+    <label class="section-label">תמונה</label>
+    <div class="file-upload-container">
+        <input type="file" accept="image/*" (change)="onImageSelected($event)" #fileInput class="hidden-input" />
+        <button mat-raised-button type="button" (click)="fileInput.click()" class="upload-btn">
+            <mat-icon>cloud_upload</mat-icon>
+            <span>בחר קובץ</span>
+        </button>
+        <p class="file-name-label">{{ fileName || 'לא נבחר קובץ' }}</p>
+    </div>
+    <div *ngIf="src" class="image-preview-container">
+        <img [src]="src" alt="תצוגת תמונה של המתכון" class="preview-image" />
+        <button *ngIf="src" mat-icon-button color="warn" type="button" (click)="removeImage(fileInput)"
+            class="delete-btn">
+            <mat-icon>delete</mat-icon>
+        </button>
+    </div>
 
     <mat-radio-group [(ngModel)]="type" [ngModelOptions]="{ standalone: true }" class="type-group" color="primary">
         <mat-radio-button *ngFor="let option of typeOptions" [value]="option">{{ option }}</mat-radio-button>
@@ -41,7 +58,7 @@
         <input matInput type="number" [(ngModel)]="difficulty" [ngModelOptions]="{ standalone: true }">
     </mat-form-field>
 
-    <label class="section-label">שכבות:</label>
+    <label class="section-label">שכבות</label>
     <div *ngFor="let layer of layers; let i = index" class="layer">
         <mat-form-field appearance="fill" class="half-width">
             <mat-label>מרכיבים</mat-label>
@@ -61,16 +78,7 @@
         <mat-icon>add</mat-icon>
     </button>
 
-    <!--
-    <label>תמונה</label><br />
-    <input type="file" accept="image/*" (change)="onImageSelected($event)" #fileInput />
-    <div *ngIf="imagePreview">
-        <img [src]="imagePreview" alt="תצוגה מקדימה" width="200" /><br />
-        <button type="button" (click)="removeImage(fileInput)">הסר תמונה</button>
-    </div><br />
--->
-
-    <label class="section-label">הוראות הכנה:</label>
+    <label class="section-label">הוראות הכנה</label>
     <div class="instruction-row" *ngFor="let instruction of instructions; let i = index; trackBy: trackByIndex">
         <mat-form-field appearance="fill" class="full-width">
             <mat-label>שלב {{ i + 1 }}</mat-label>
@@ -98,7 +106,8 @@
     <mat-card-actions>
         <div class="recipe-actions">
             <button mat-raised-button color="primary" class="action-button" (click)="addRecipe()">שמירה</button>
-            <button mat-raised-button color="warn" class="action-button" type="button" *ngIf="!isEditMode" (click)="resetForm()">איפוס</button>
+            <button mat-raised-button color="warn" class="action-button" type="button" *ngIf="!isEditMode"
+                (click)="resetForm()">איפוס</button>
         </div>
     </mat-card-actions>
 

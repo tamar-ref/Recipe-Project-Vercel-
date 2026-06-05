@@ -42,6 +42,7 @@ export class RecipeFormComponent implements OnInit {
     { ingredients: '', description: '' }
   ];
   image: File | null = null;
+  fileName: string = '';
   src: string = '';
   instructions: string[] = [''];
   isPrivate: boolean = false;
@@ -70,6 +71,9 @@ export class RecipeFormComponent implements OnInit {
           this.layers = [...this.recipeToEdit.layers];
           this.instructions = [...this.recipeToEdit.instructions];
           this.isPrivate = this.recipeToEdit.isPrivate;
+          this.src = this.recipeToEdit.image || '';
+          this.imagePreview = this.recipeToEdit.image || null;
+          this.fileName = this.recipeToEdit.image ? 'תמונה שמורה' : '';
         },
         error: () => {
           console.error('שגיאה בטעינת מתכון לעריכה')
@@ -95,6 +99,7 @@ export class RecipeFormComponent implements OnInit {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       this.image = input.files[0];
+      this.fileName = this.image.name;
 
       const reader = new FileReader();
       reader.onload = () => {
@@ -107,6 +112,7 @@ export class RecipeFormComponent implements OnInit {
 
   removeImage(fileInput: HTMLInputElement): void {
     this.image = null;
+    this.fileName = '';
     this.imagePreview = null;
     this.src = '';
     fileInput.value = '';
@@ -152,6 +158,8 @@ export class RecipeFormComponent implements OnInit {
 
 
   addRecipe(): void {
+    this.isDataLoading = true;
+    console.log('hello!!!');
     const filteredInstructions = this.instructions.filter(text => text.trim() !== '');
     const filteredLayers = this.layers.filter(obj => {
       return obj.ingredients.trim() !== '' || obj.description.trim() !== '';
@@ -175,16 +183,17 @@ export class RecipeFormComponent implements OnInit {
     if (this.recipeToEdit) {
       this.recipeService.updateRecipe(this.recipeToEdit._id, formData).subscribe({
         next: (res) => {
+          this.isDataLoading = false;
           this.router.navigate([`/recipe/${this.recipeToEdit?._id}`]);
         },
         error: (err) => {
+          this.isDataLoading = false;
           console.error('Error adding recipe:', err);
           alert(err.error.error)
         }
       });
     }
     else {
-      this.isDataLoading = true;
       this.recipeService.addRecipe(formData).subscribe({
         next: (res) => {
           this.isDataLoading = false;
@@ -197,7 +206,6 @@ export class RecipeFormComponent implements OnInit {
         },
       });
     }
-
   }
 
   resetForm(): void {
@@ -211,6 +219,7 @@ export class RecipeFormComponent implements OnInit {
     this.difficulty = null;
     this.layers = [{ ingredients: '', description: '' }];
     this.image = null;
+    this.fileName = '';
     this.src = '';
     this.imagePreview = null;
     this.instructions = [''];

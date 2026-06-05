@@ -1,7 +1,34 @@
 import Recipe from '../models/recipe.model.js';
 import Category from '../models/category.model.js';
 import User from '../models/user.model.js';
+import cloudinary from '../config/cloudinary.js';
 import mongoose from 'mongoose';
+
+const uploadCloudinaryImage = async (imageData) => {
+    if (!imageData || typeof imageData !== 'string' || !imageData.startsWith('data:')) {
+        return null;
+    }
+    const uploadResult = await cloudinary.uploader.upload(imageData, {
+        folder: 'recipes',
+        resource_type: 'image'
+    });
+    return {
+        url: uploadResult.secure_url,
+        publicId: uploadResult.public_id
+    };
+};
+
+const extractPublicIdFromUrl = (url) => {
+    if (!url || typeof url !== 'string') return null;
+    const match = url.match(/upload(?:\/v\d+)?\/(.+)\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i);
+    return match ? match[1] : null;
+};
+
+const deleteCloudinaryImage = async (publicId, imageUrl) => {
+    const effectivePublicId = publicId || extractPublicIdFromUrl(imageUrl);
+    if (!effectivePublicId) return;
+    await cloudinary.uploader.destroy(effectivePublicId, { resource_type: 'image' });
+};
 
 // קבלת כל המתכונים עם חיפוש, עמודים, וסינון לפי משתמש
 export const getAllRecipes = async (req, res, next) => {
@@ -75,8 +102,19 @@ export const addRecipe = async (req, res, next) => {
         const categoryName = req.body.category;
         let category = await Category.findOne({ name: categoryName });
         const user = await User.findById(req.myUser._id);
+
+        let image = req.body.image;
+        let imagePublicId = null;
+        const uploadResult = await uploadCloudinaryImage(req.body.image);
+        if (uploadResult) {
+            image = uploadResult.url;
+            imagePublicId = uploadResult.publicId;
+        }
+
         const recipeData = {
             ...req.body,
+            image,
+            imagePublicId,
             user: { _id: req.myUser._id, username: user.username },
             category: { _id: category._id, name: category.name }
         };
@@ -85,7 +123,7 @@ export const addRecipe = async (req, res, next) => {
 
         category.recipes.push({
             _id: recipe._id,
-            name: recipe.name,        
+            name: recipe.name,
         });
         category.num += 1;
         await category.save();
@@ -110,12 +148,33 @@ export const updateRecipe = async (req, res, next) => {
             return next({ status: 403, message: 'Not authorized to update this recipe' });
         }
 
-        const oldName = recipe.name;
         const oldCategoryId = recipe.category?._id;
 
         // הכנה לקטגוריה חדשה (שם כטקסט)
         const categoryName = req.body.category.trim();
         let category = await Category.findOne({ name: categoryName });
+
+        // Image handling
+        const newImage = req.body.image;
+        const isNewImageUpload = typeof newImage === 'string' && newImage.startsWith('data:');
+        const isImageRemoved = newImage === '';
+
+        if (isNewImageUpload || isImageRemoved) {
+            await deleteCloudinaryImage(recipe.imagePublicId, recipe.image);
+        }
+
+        if (isNewImageUpload) {
+            const uploadResult = await uploadCloudinaryImage(newImage);
+            req.body.image = uploadResult?.url;
+            req.body.imagePublicId = uploadResult?.publicId;
+        } else if (isImageRemoved) {
+            req.body.image = undefined;
+            req.body.imagePublicId = undefined;
+        } else {
+            // Keep existing image fields if unchanged
+            req.body.image = recipe.image;
+            req.body.imagePublicId = recipe.imagePublicId;
+        }
 
         // המרת המחרוזת לאובייקט קטגוריה
         req.body.category = {
@@ -165,6 +224,10 @@ export const deleteRecipe = async (req, res, next) => {
         // רק הבעלים או מנהל יכולים למחוק
         if (recipeUserId !== myUserId && req.myUser.role !== 'admin') {
             return next({ status: 403, message: 'Not authorized to delete this recipe' });
+        }
+
+        if (recipe.imagePublicId || recipe.image) {
+            await deleteCloudinaryImage(recipe.imagePublicId, recipe.image);
         }
 
         if (recipe.category?._id) {

@@ -72,6 +72,10 @@ const recipeSchema = new Schema({
     image: {
         type: String
     },
+    imagePublicId: {
+        type: String
+    },
+
     isPrivate: {
         type: Boolean,
         default: false
@@ -84,6 +88,9 @@ const recipeSchema = new Schema({
         },
         username: String,
     },
+    pictures: {
+        
+    }
 });
 
 export default model('recipes', recipeSchema);
